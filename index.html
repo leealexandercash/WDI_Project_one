@@ -1,10 +1,56 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Heads Up Poker</title>
-  </head>
-  <body>
-    <h1>Heads Up Poker</h1>
-  </body>
-</html>
+<head>
+  <meta charset="utf-8">
+  <title>Heads Up Poker</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" charset="utf-8"></script>
+  <script type="text/javascript" src="js/deckOfCards.js"></script>
+  <script src="js/app.js" charset="utf-8"></script>
+  <link rel="stylesheet" href="css/style.css" media="screen" title="no title">
+</head>
+<body>
+  <h1>Heads Up Poker</h1>
+  <div class="wrapper">
+    <div class="gameContainer">
+
+
+      <div class = "statusArea">statusArea</div>
+      <div class="gameArea">
+        <div class="computerArea">
+
+          <div class="computerCards">
+            <div id="computerPot">Pot Value</div>
+            <div id="computerCardOne">CCard One
+            </div>
+            <div id="computerCardTwo">CCard Two
+            </div>
+          </div>
+
+        </div>
+
+        <div class="boardArea">
+          <div class="boardCardContainer">boardCardContainer
+          </div>
+        </div>
+        <div class="userArea">userArea
+          <div class="userCards">
+            <div id="userCardOne">CCard One
+            </div>
+            <div id="userCardTwo">CCard Two
+            </div>
+          </div>
+        </div>
+        <div class="buttonArea">buttonArea
+          <div class="bettingButtonContainer">
+            <button type="button" class="bettingButtons" id="foldButton">Fold</button>
+            <button type="button" class="bettingButtons" id="callButton">Call</button>
+            <button type="button" class="bettingButtons" id="betButton">Bet</button>
+          </div>
+          <div id="userPot">Pot Value</div>
+        </div>
+
+      </div>
+    </body>
+    </html>
+
+    <!-- https://github.com/hayeah/playing-cards-assets/blob/master/png/10_of_diamonds.png -->

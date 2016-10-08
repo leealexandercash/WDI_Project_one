@@ -1,0 +1,138 @@
+body  {
+  background-color: black;
+}
+
+h1 {
+  color: white;
+  margin: 0 auto;
+  text-align: center;
+}
+.wrapper {
+
+}
+
+.statusArea {
+  display: inline-block;
+  width: 23%;
+  height: 800px;
+  background-color: lightgrey;
+  margin: 3%;
+  margin-left: 10%;
+  border-radius: 30px;
+  vertical-align: top;
+}
+
+.gameArea {
+display: inline-block;
+width: 50%;
+height: 800px;
+background-color: lightgreen;
+margin: 3%;
+border-radius: 30px;
+}
+
+.computerArea {
+  display: block;
+  height: 20%;
+  background-color: lightgreen;
+  width: 90%;
+  margin: auto;
+}
+.boardArea {
+  display: block;
+  position: relative;
+  height: 20%;
+  background-color: lightgreen;
+  width: 90%;
+  margin: auto;
+  background: url("../images/poker-table-for-website.png") no-repeat;
+  background-size: cover;
+}
+  .boardCardContainer {
+    margin: 30px auto;
+    width: 325px;
+    height: 100px;
+    background-color: lightblue;
+    border-top: 100px;
+    top: 20px:
+}
+.userArea {
+  display: block;
+  height: 20%;
+  background-color: rgba(0, 255, 0, 0);
+  width: 90%;
+  margin: 10px auto;
+  border-radius: 10px;
+  border: 2px solid black;
+}
+.buttonArea {
+  display: block;
+  height: 20%;
+  background-color: lightgreen;
+  width: 90%;
+  margin: 10px auto;
+  border-radius: 10px;
+  border: 2px solid black;
+}
+.computerCards {
+  display: inline-block;
+  width: 380px;
+  height: 150px;
+  margin: auto;
+}
+#computerCardOne {
+  display: inline-block;
+  width: 100px;
+  height: 140px;
+  background-color: red;
+}
+#computerCardTwo {
+  display: inline-block;
+  width: 100px;
+  height: 140px;
+  background-color: red;
+}
+
+.userCards {
+  width: 220px;
+  height: 150px;
+  margin: auto;
+}
+#userCardOne {
+  display: inline-block;
+  width: 100px;
+  height: 140px;
+  background-color: red;
+}
+#userCardTwo {
+  float: right;
+  display: inline-block;
+  width: 100px;
+  height: 140px;
+  background-color: red;
+  margin: 0 10px auto;
+}
+.bettingButtons {
+  display: inline-block;
+  width: 100px;
+  height: 40px;
+}
+#foldButton {
+  background-color: orange;
+}
+#callButton {
+  background-color: yellow;
+}
+#betButton {
+  background-color: green;
+}
+.bettingButtonContainer {
+  margin: auto;
+  width: 60%;
+}
+#computerPot {
+  display: inline-block;
+  width: 100px;
+  height: 100px;
+  margin: 25px 25px 0 25px;
+}
