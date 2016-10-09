@@ -41,6 +41,7 @@ $(function () {
   var humanPairedHands = [];
   var humanHighestCard = "";
   var humanStraightFlushHands = [];
+  var humanHasRoyalFlush = 0;
 
   var computerFlushHands = [];
   var computerFullHouseHands = [];
@@ -51,6 +52,7 @@ $(function () {
   var computerPairedHands = [];
   var computerHighestCard = "";
   var computerStrightFlushHands = [];
+  var computerHasRoyalFlush = 0;
 
   // This logs the full set of cards dealt but isn't required once the UI contains the cards.
   // console.log(deckOfCards[humanCard1].value, deckOfCards[humanCard1].suitName, deckOfCards[humanCard2].value, deckOfCards[humanCard2].suitName, deckOfCards[computerCard1].value, deckOfCards[computerCard1].suitName, deckOfCards[computerCard2].value, deckOfCards[computerCard2].suitName, deckOfCards[flopCard1].value, deckOfCards[flopCard1].suitName, deckOfCards[flopCard2].value, deckOfCards[flopCard2].suitName, deckOfCards[flopCard3].value, deckOfCards[flopCard3].suitName, deckOfCards[turnCard].value, deckOfCards[turnCard].suitName, deckOfCards[riverCard].value, deckOfCards[riverCard].suitName);
@@ -124,7 +126,7 @@ $(function () {
   //console.log(humanSortedCombinationCardSuits1, humanSortedCombinationCardSuits2, humanSortedCombinationCardSuits3, humanSortedCombinationCardSuits4, humanSortedCombinationCardSuits5, humanSortedCombinationCardSuits6, humanSortedCombinationCardSuits7, humanSortedCombinationCardSuits8, humanSortedCombinationCardSuits9, humanSortedCombinationCardSuits10, humanSortedCombinationCardSuits11, humanSortedCombinationCardSuits12, humanSortedCombinationCardSuits13, humanSortedCombinationCardSuits14, humanSortedCombinationCardSuits15, humanSortedCombinationCardSuits16, humanSortedCombinationCardSuits17, humanSortedCombinationCardSuits18, humanSortedCombinationCardSuits19, humanSortedCombinationCardSuits20, humanSortedCombinationCardSuits21);
 
   //Use these two arrays for testing... they overwrite the arrays above...
-  humanSortedCombinationCardValues1 = [9,8,7,6,5];
+  humanSortedCombinationCardValues1 = [14,13,12,11,10];
   //  humanSortedCombinationCardValues2 = [5,4,3,2,1];
   humanSortedCombinationCardSuits1 = [1,1,1,1,1];
   // humanSortedCombinationCardSuits2 = [2,2,2,2,2];
@@ -265,6 +267,9 @@ $(function () {
       }
     }
   };
+
+  //And a Royal Flush can therefore be established if any of those humanStraightFlushHands contain an Ace. Can be done seperately.
+
   isStraightFlush(allHumanSortedCombinationCardValues, allHumanSortedCombinationCardSuits);
   console.log('Human has '+humanStraightFlushHands.length+' Straight Flush arrays');
   console.log(humanStraightFlushHands);
@@ -314,10 +319,27 @@ $(function () {
   console.log("Human's Highest Card is: "+humanHighestCard);
   // console.log('High Card is 'Math.max(humanCard1));
 
+  //Condition for a Royal Flush
+  doesHumanHaveRoyalFlush = function() {
+    for (var i=0;i<humanStraightFlushHands.length;i++) {
+      if (humanStraightFlushHands[i][0] === 14) {
+        humanHasRoyalFlush = 1;
+      }
+    }
+  };
+  doesHumanHaveRoyalFlush();
+  console.log('Human has '+humanHasRoyalFlush+' Royal Flushes');
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //So what if two players both had the same hand type? We will need to compare a secondary value to determine the winner. We need to look into
+  //the values of the hands arrays to find the highest value of whatever and give them a secondary scoring value...
+
+  // FirstCase - both players have
 
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////Similarly Work out the Computer's Hands////////////////////////////////////////////////////////////////////////////////
+
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////Similarly Work out the Computer's Hands////////////////////////////////////////////////////////////////////////////////
 
 
 
