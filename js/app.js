@@ -49,6 +49,10 @@ $(function () {
   var humanHighestCardValueInAFourOfAKind = 0;
   var humanHighestCardValueInAFullHouse = 0;
   var humanHighestCardValueInThreeOfAKind = 0;
+  var humanHighestCardValueInAStraight = 0;
+  var humanHighestCardValueInFirstPairInTwoPair = 0;
+  var humanHighestCardValueInSecondPairInTwoPair = 0;
+  var humanHighestCardValueInPair = 0;
 
   var computerFlushHands = [];
   var computerFullHouseHands = [];
@@ -133,7 +137,7 @@ $(function () {
   //console.log(humanSortedCombinationCardSuits1, humanSortedCombinationCardSuits2, humanSortedCombinationCardSuits3, humanSortedCombinationCardSuits4, humanSortedCombinationCardSuits5, humanSortedCombinationCardSuits6, humanSortedCombinationCardSuits7, humanSortedCombinationCardSuits8, humanSortedCombinationCardSuits9, humanSortedCombinationCardSuits10, humanSortedCombinationCardSuits11, humanSortedCombinationCardSuits12, humanSortedCombinationCardSuits13, humanSortedCombinationCardSuits14, humanSortedCombinationCardSuits15, humanSortedCombinationCardSuits16, humanSortedCombinationCardSuits17, humanSortedCombinationCardSuits18, humanSortedCombinationCardSuits19, humanSortedCombinationCardSuits20, humanSortedCombinationCardSuits21);
 
   //Use these two arrays for testing... they overwrite the arrays above...
-  humanSortedCombinationCardValues1 = [12,12,10,10,10];
+  // humanSortedCombinationCardValues1 = [12,11,10,9,8];
   // humanSortedCombinationCardValues2 = [5,4,3,2,1];
   // humanSortedCombinationCardSuits1 = [1,1,1,1,1];
   // humanSortedCombinationCardSuits2 = [2,2,2,2,2];
@@ -333,7 +337,7 @@ $(function () {
   //the values of the hands arrays to find the highest value of whatever and give them a secondary scoring value...
 
   // First Case - both players have a Straight Flush but one has a higher Straight Flush
-  humanHighestCardInAStaightFlush = function() {
+  humanHighestCardOfAStaightFlush = function() {
     for (var i=0;i<humanStraightFlushHands.length;i++) {
       if (humanStraightFlushHands[i][0] > humanHighestCardValueInAStraightFlush) {
         humanHighestCardValueInAStraightFlush = humanStraightFlushHands[i][0];
@@ -341,7 +345,7 @@ $(function () {
       }
     }
   };
-  humanHighestCardInAStaightFlush();
+  humanHighestCardOfAStaightFlush();
 
   // Second Case - both players have Four Of A Kind but one has a higher Four Of A Kind
   humanCardValueOfFourOfAKind = function() {
@@ -365,7 +369,18 @@ $(function () {
   };
   humanCardValueOfFullHouse();
 
-  //Fourth Case - both players have Three Of A Kind
+  //Fourth Case - both players have a straight.
+  humanCardValueOfAStraight = function() {
+    for (var i=0;i<humanStraightHands.length;i++) {
+      if (humanStraightHands[i][0] > humanHighestCardValueInAStraight) {
+        humanHighestCardValueInAStraight = humanStraightHands[i][0];
+        console.log('Human has high card value of '+humanHighestCardValueInAStraight+' in a Straight');
+      }
+    }
+  };
+  humanCardValueOfAStraight();
+
+  //Fifth Case - both players have Three Of A Kind
   humanCardValueOfThreeOfAKind = function() {
     for (var i=0;i<humanThreeOfAKindHands.length;i++) {
       if (humanThreeOfAKindHands[i][2] > humanHighestCardValueInThreeOfAKind) {
@@ -375,6 +390,50 @@ $(function () {
     }
   };
   humanCardValueOfThreeOfAKind();
+
+  //Sixth Case - If Both Players Have Two Pair!
+  humanCardValueOfFirstPairInTwoPair = function () {
+    for (var i=0;i<humanTwoPairHands.length;i++) {
+      if (humanTwoPairHands[i][1] > humanHighestCardValueInFirstPairInTwoPair) {
+        humanHighestCardValueInFirstPairInTwoPair = humanTwoPairHands[i][1];
+        console.log('Human has first pair value of '+humanHighestCardValueInFirstPairInTwoPair+' in Two Pairs');
+      }
+    }
+  };
+  humanCardValueOfFirstPairInTwoPair();
+
+  humanCardValueOfSecondPairInTwoPair = function () {
+    for (var i=0;i<humanTwoPairHands.length;i++) {
+      if (humanTwoPairHands[i][3] > humanHighestCardValueInSecondPairInTwoPair) {
+        humanHighestCardValueInSecondPairInTwoPair = humanTwoPairHands[i][3];
+        console.log('Human has second pair value of '+humanHighestCardValueInSecondPairInTwoPair+' in Two Pairs');
+      }
+    }
+  };
+  humanCardValueOfSecondPairInTwoPair();
+
+  //Seventh Case - If Both Players Have One Pair
+  humanCardValueOfPair = function () {
+    for (var i=0;i<humanPairedHands.length;i++) {
+      if (humanPairedHands[i][0] === humanPairedHands[i][1]) {
+        humanHighestCardValueInPair = humanPairedHands[i][0];
+        console.log('Human has pair value of '+humanHighestCardValueInPair+' in a Pair');
+      } else if (humanPairedHands[i][1] === humanPairedHands[i][2]) {
+        humanHighestCardValueInPair = humanPairedHands[i][1];
+        console.log('Human has pair value of '+humanHighestCardValueInPair+' in a Pair');
+      } else if (humanPairedHands[i][2] === humanPairedHands[i][3]) {
+        humanHighestCardValueInPair = humanPairedHands[i][2];
+        console.log('Human has pair value of '+humanHighestCardValueInPair+' in a Pair');
+      } else if (humanPairedHands[i][3] === humanPairedHands[i][4]) {
+        humanHighestCardValueInPair = humanPairedHands[i][3];
+        console.log('Human has pair value of '+humanHighestCardValueInPair+' in a Pair');
+      }
+    }
+  };
+  humanCardValueOfPair();
+
+  //Eigth Case - If Both Players Have High Card
+  
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   ////////////////////////Similarly Work out the Computer's Hands////////////////////////////////////////////////////////////////////////////////
