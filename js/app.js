@@ -20,7 +20,7 @@ $(function () {
 
   // deal the cards to be used in the hand
   dealCards();
-  //    console.log(cardsSelectedForPlay);
+  //console.log(cardsSelectedForPlay);
 
   var playerCard1 = cardsSelectedForPlay[0];
   var playerCard2 = cardsSelectedForPlay[1];
@@ -33,13 +33,20 @@ $(function () {
   var riverCard = cardsSelectedForPlay[8];
 
   var flushHands = [];
+  var fullHouseHands = [];
+  var fourOfAKindHands = [];
+  var straightHands = [];
+  var threeOfAKindHands = [];
+  var twoPairHands = [];
+  var pairedHands = [];
+  var highestCard = "";
 
-  console.log(deckOfCards[playerCard1].value, deckOfCards[playerCard1].suitName, deckOfCards[playerCard2].value, deckOfCards[playerCard2].suitName, deckOfCards[computerCard1].value, deckOfCards[computerCard1].suitName, deckOfCards[computerCard2].value, deckOfCards[computerCard2].suitName, deckOfCards[flopCard1].value, deckOfCards[flopCard1].suitName, deckOfCards[flopCard2].value, deckOfCards[flopCard2].suitName, deckOfCards[flopCard3].value, deckOfCards[flopCard3].suitName, deckOfCards[turnCard].value, deckOfCards[turnCard].suitName, deckOfCards[riverCard].value, deckOfCards[riverCard].suitName);
+  // This logs the full set of cards dealt but isn't required once the UI contains the cards.
+  // console.log(deckOfCards[playerCard1].value, deckOfCards[playerCard1].suitName, deckOfCards[playerCard2].value, deckOfCards[playerCard2].suitName, deckOfCards[computerCard1].value, deckOfCards[computerCard1].suitName, deckOfCards[computerCard2].value, deckOfCards[computerCard2].suitName, deckOfCards[flopCard1].value, deckOfCards[flopCard1].suitName, deckOfCards[flopCard2].value, deckOfCards[flopCard2].suitName, deckOfCards[flopCard3].value, deckOfCards[flopCard3].suitName, deckOfCards[turnCard].value, deckOfCards[turnCard].suitName, deckOfCards[riverCard].value, deckOfCards[riverCard].suitName);
 
   //The image address of each card is a value on the deckOfCards object.
 
-  console.log(deckOfCards[playerCard1].image);
-
+  // This format is used for the card images - deckOfCards[playerCard1].image
   //Update the UI with the all the cards in view initially so that we can test more easily whilst developing the game
   $('#userCardOne').prepend('<img height=100% src="images/'+deckOfCards[playerCard1].image+'" />');
   $('#userCardTwo').prepend('<img height=100% src="images/'+deckOfCards[playerCard2].image+'" />');
@@ -76,7 +83,8 @@ $(function () {
   var sortedCombinationCardValues20 = [deckOfCards[playerCard2].value, deckOfCards[flopCard2].value, deckOfCards[flopCard3].value, deckOfCards[turnCard].value, deckOfCards[riverCard].value].sort(function(a, b) {return b-a;});
   var sortedCombinationCardValues21 = [deckOfCards[flopCard1].value, deckOfCards[flopCard2].value, deckOfCards[flopCard3].value, deckOfCards[turnCard].value, deckOfCards[riverCard].value].sort(function(a, b) {return b-a;});
 
-  console.log(sortedCombinationCardValues1, sortedCombinationCardValues2, sortedCombinationCardValues3, sortedCombinationCardValues4, sortedCombinationCardValues5, sortedCombinationCardValues6, sortedCombinationCardValues7, sortedCombinationCardValues8, sortedCombinationCardValues9, sortedCombinationCardValues10, sortedCombinationCardValues11, sortedCombinationCardValues12, sortedCombinationCardValues13, sortedCombinationCardValues14, sortedCombinationCardValues15, sortedCombinationCardValues16, sortedCombinationCardValues17, sortedCombinationCardValues18, sortedCombinationCardValues19, sortedCombinationCardValues20, sortedCombinationCardValues21);
+  //This is a useful log which shows all the card values in all the combinaiton arrays
+  //console.log(sortedCombinationCardValues1, sortedCombinationCardValues2, sortedCombinationCardValues3, sortedCombinationCardValues4, sortedCombinationCardValues5, sortedCombinationCardValues6, sortedCombinationCardValues7, sortedCombinationCardValues8, sortedCombinationCardValues9, sortedCombinationCardValues10, sortedCombinationCardValues11, sortedCombinationCardValues12, sortedCombinationCardValues13, sortedCombinationCardValues14, sortedCombinationCardValues15, sortedCombinationCardValues16, sortedCombinationCardValues17, sortedCombinationCardValues18, sortedCombinationCardValues19, sortedCombinationCardValues20, sortedCombinationCardValues21);
 
   // Similarly, we need to know the suited values of the cards so that we can check for a flush, a stright flush and a Royal Flush:-
   var sortedCombinationCardSuits1 = [deckOfCards[playerCard1].suit, deckOfCards[playerCard2].suit, deckOfCards[flopCard1].suit, deckOfCards[flopCard2].suit, deckOfCards[flopCard3].suit].sort(function(a, b) {return b-a;});
@@ -101,7 +109,20 @@ $(function () {
   var sortedCombinationCardSuits20 = [deckOfCards[playerCard2].suit, deckOfCards[flopCard2].suit, deckOfCards[flopCard3].suit, deckOfCards[turnCard].suit, deckOfCards[riverCard].suit].sort(function(a, b) {return b-a;});
   var sortedCombinationCardSuits21 = [deckOfCards[flopCard1].suit, deckOfCards[flopCard2].suit, deckOfCards[flopCard3].suit, deckOfCards[turnCard].suit, deckOfCards[riverCard].suit].sort(function(a, b) {return b-a;});
 
-  // console.log(sortedCombinationCardSuits1, sortedCombinationCardSuits2, sortedCombinationCardSuits3, sortedCombinationCardSuits4, sortedCombinationCardSuits5, sortedCombinationCardSuits6, sortedCombinationCardSuits7, sortedCombinationCardSuits8, sortedCombinationCardSuits9, sortedCombinationCardSuits10, sortedCombinationCardSuits11, sortedCombinationCardSuits12, sortedCombinationCardSuits13, sortedCombinationCardSuits14, sortedCombinationCardSuits15, sortedCombinationCardSuits16, sortedCombinationCardSuits17, sortedCombinationCardSuits18, sortedCombinationCardSuits19, sortedCombinationCardSuits20, sortedCombinationCardSuits21);
+  //This is a useful log which shows all the card suits in all the combinaiton arrays
+  //console.log(sortedCombinationCardSuits1, sortedCombinationCardSuits2, sortedCombinationCardSuits3, sortedCombinationCardSuits4, sortedCombinationCardSuits5, sortedCombinationCardSuits6, sortedCombinationCardSuits7, sortedCombinationCardSuits8, sortedCombinationCardSuits9, sortedCombinationCardSuits10, sortedCombinationCardSuits11, sortedCombinationCardSuits12, sortedCombinationCardSuits13, sortedCombinationCardSuits14, sortedCombinationCardSuits15, sortedCombinationCardSuits16, sortedCombinationCardSuits17, sortedCombinationCardSuits18, sortedCombinationCardSuits19, sortedCombinationCardSuits20, sortedCombinationCardSuits21);
+
+  //Use these two arrays for testing... they overwrite the arrays above...
+  // sortedCombinationCardValues1 = [9,5,5,5,3];
+  //  sortedCombinationCardValues2 = [5,4,3,2,1];
+  // sortedCombinationCardSuits1 = [1,1,1,1,1];
+  // sortedCombinationCardSuits2 = [2,2,2,2,2];
+
+  //This is a variable containing the arrays of all the sorted card values (above) for all permutations for the player
+  var allSortedCombinationCardValues = [sortedCombinationCardValues1, sortedCombinationCardValues2, sortedCombinationCardValues3, sortedCombinationCardValues4, sortedCombinationCardValues5, sortedCombinationCardValues6, sortedCombinationCardValues7, sortedCombinationCardValues8, sortedCombinationCardValues9, sortedCombinationCardValues10, sortedCombinationCardValues11, sortedCombinationCardValues12, sortedCombinationCardValues13, sortedCombinationCardValues14, sortedCombinationCardValues15, sortedCombinationCardValues16, sortedCombinationCardValues17, sortedCombinationCardValues18, sortedCombinationCardValues19, sortedCombinationCardValues20, sortedCombinationCardValues21];
+
+  //This is a variable containing the arrays of all the sorted suit values (above) for all permutations for the player
+  var allSortedCombinationCardSuits = [sortedCombinationCardSuits1, sortedCombinationCardSuits2, sortedCombinationCardSuits3, sortedCombinationCardSuits4, sortedCombinationCardSuits5, sortedCombinationCardSuits6, sortedCombinationCardSuits7, sortedCombinationCardSuits8, sortedCombinationCardSuits9, sortedCombinationCardSuits10, sortedCombinationCardSuits11, sortedCombinationCardSuits12, sortedCombinationCardSuits13, sortedCombinationCardSuits14, sortedCombinationCardSuits15, sortedCombinationCardSuits16, sortedCombinationCardSuits17, sortedCombinationCardSuits18, sortedCombinationCardSuits19, sortedCombinationCardSuits20, sortedCombinationCardSuits21];
 
   //We can now write functions that will check for the various hands and run the combinations through them to check if they are true.
 
@@ -109,17 +130,13 @@ $(function () {
   var fourOfAKindChecker = function(array) {
     if ((array[0] === array[3]) || (array[1] === array[4])) {
       return true;
-    } else {
-      return false;
     }
   };
 
   //Function to see if a hand is a full house. Uses sortedCombinationCardValues arrays and compares the first three cards and the last two cards (and vice versa) to see if the cards within those ranges are the same.
   var fullHouseChecker = function(array) {
-    if (((array[0] === array[2]) && (array[3] === array[4])) || ((array[0] === array[1]) && (array[2] === array[4]))) {
+    if ((array[0] === array[2] && array[3] === array[4]) || (array[0] === array[1] && array[2] === array[4])) {
       return true;
-    } else {
-      return false;
     }
   };
 
@@ -127,76 +144,136 @@ $(function () {
   var flushChecker = function(array) {
     if (array[0] === array[4]) {
       return true;
-    } else {
-      return false;
     }
   };
 
   //Function to see if a hand is a straight (uses sortedCombinationCardValues) and simply checks to see if the numbers within the array are sequentially decreasing
   var straightChecker = function(array) {
-    if ((array[1] === (array[0]-1)) && (array[2] === (array[1]-1)) && (array[3] === (array[2]-1)) && (array[4] === (array[3]-1))) {
+    if ((array[1] === array[0]-1) && (array[2] === (array[1]-1)) && (array[3] === (array[2]-1)) && (array[4] === array[3]-1)) {
       return true;
-    } else {
-      return false;
     }
   };
 
-  //Function to see if a hand is a Straight Flush
-  var straightFlushChecker = function() {
-    if (isFlush && isStraight) {
+  // Function to see if a hand is Three Of A Kind. Uses sortedCombinationCardValues and looks to see if there are three equal values within the array which will always be consecutive as they are sorted by order.
+  var threeOfAKindChecker = function(array) {
+    if (array[0] === array[2] || array[1] === array[3] || array[2] === array[4]) {
       return true;
-    } else {
-      return false;
     }
   };
 
-  //Variable which stores true or false for a Royal Flush
-  var royalFlushChecker = function(array) {
-    if (isStraightFlush && array[0]===14) {
+  //Function to see if a hand is Two Pairs. Uses sortedCombinationCardValues to see if there are two lots of two cards within the array that have the same value (i.e. two values next to each other are equal, as they are already sorted by value).
+  var twoPairChecker = function(array) {
+    if ((array[0] === array[1]) && (array[2] === array[3]) || (array[0] === array[1]) && (array[3] === array[4]) || (array[1] === array[2]) && (array[3] === array[4])) {
       return true;
-    } else {
-      return false;
     }
   };
 
-  //Use these two arrays for testing
-  //  sortedCombinationCardValues1 = [5,4,3,2,1];
-  sortedCombinationCardSuits1 = [1,1,1,1,1];
-  sortedCombinationCardSuits2 = [2,2,2,2,2];
+  //Function to see if a hand contains any pairs. Uses sortedCombinationCardValues to see if there are two cards within the array that have the same value.
+  var pairChecker = function(array) {
+    if (array[0] === array[1] || array[1] === array[2] || array[2] === array[3] || array[3] === array[4]) {
+      return true;
+    }
+  };
 
-  var allSortedCombinationCardValues = [sortedCombinationCardValues1, sortedCombinationCardValues2, sortedCombinationCardValues3, sortedCombinationCardValues4, sortedCombinationCardValues5, sortedCombinationCardValues6, sortedCombinationCardValues7, sortedCombinationCardValues8, sortedCombinationCardValues9, sortedCombinationCardValues10, sortedCombinationCardValues11, sortedCombinationCardValues12, sortedCombinationCardValues13, sortedCombinationCardValues14, sortedCombinationCardValues15, sortedCombinationCardValues16, sortedCombinationCardValues17, sortedCombinationCardValues18, sortedCombinationCardValues19, sortedCombinationCardValues20, sortedCombinationCardValues21];
+  //highCardChecker. Checks for the highest value card in the array of all cards.
+  var highCardChecker = function() {
+    highestCard = Math.max(deckOfCards[playerCard1].value, deckOfCards[playerCard2].value, deckOfCards[flopCard1].value, deckOfCards[flopCard2].value, deckOfCards[flopCard3].value, deckOfCards[turnCard].value, deckOfCards[riverCard].value);
+  };
 
-  var allSortedCombinationCardSuits = [sortedCombinationCardSuits1, sortedCombinationCardSuits2, sortedCombinationCardSuits3, sortedCombinationCardSuits4, sortedCombinationCardSuits5, sortedCombinationCardSuits6, sortedCombinationCardSuits7, sortedCombinationCardSuits8, sortedCombinationCardSuits9, sortedCombinationCardSuits10, sortedCombinationCardSuits11, sortedCombinationCardSuits12, sortedCombinationCardSuits13, sortedCombinationCardSuits14, sortedCombinationCardSuits15, sortedCombinationCardSuits16, sortedCombinationCardSuits17, sortedCombinationCardSuits18, sortedCombinationCardSuits19, sortedCombinationCardSuits20, sortedCombinationCardSuits21];
-
+  //Function to see if there are Flush arrays when called with the allSortedCombinationCardSuits array. Uses the flushChecker function.
   var isFlush = function(array) {
     for (var i=0;i<array.length;i++) {
       if(flushChecker(array[i])) {
         flushHands.push(array[i]);
         console.log(array[i]+' is a flush');
-      } else {
-        //console.log('tried '+[i]);
       }
     }
   };
   isFlush(allSortedCombinationCardSuits);
-
+  console.log('There are '+flushHands.length+' Flush arrays');
   console.log(flushHands);
-  console.log(flushHands.length);
 
-  var isFullHouse = (fullHouseChecker(sortedCombinationCardValues1) || fullHouseChecker(sortedCombinationCardValues2) || fullHouseChecker(sortedCombinationCardValues3) || fullHouseChecker(sortedCombinationCardValues4) || fullHouseChecker(sortedCombinationCardValues5) || fullHouseChecker(sortedCombinationCardValues6) || fullHouseChecker(sortedCombinationCardValues7) || fullHouseChecker(sortedCombinationCardValues8) || fullHouseChecker(sortedCombinationCardValues9) || fullHouseChecker(sortedCombinationCardValues10) || fullHouseChecker(sortedCombinationCardValues11) || fullHouseChecker(sortedCombinationCardValues12) || fullHouseChecker(sortedCombinationCardValues13) || fullHouseChecker(sortedCombinationCardValues14) || fullHouseChecker(sortedCombinationCardValues15) || fullHouseChecker(sortedCombinationCardValues16) || fullHouseChecker(sortedCombinationCardValues17) || fullHouseChecker(sortedCombinationCardValues18) || fullHouseChecker(sortedCombinationCardValues19) || fullHouseChecker(sortedCombinationCardValues20) || fullHouseChecker(sortedCombinationCardValues21));
+  //Function to see if there are Full House arrays when called with the allSortedCombinationCardValues array. Uses the fullHouseChecker function.
+  var isFullHouse = function(array) {
+    for (var i=0;i<array.length;i++) {
+      if(fullHouseChecker(array[i])) {
+        fullHouseHands.push(array[i]);
+        // console.log(array[i]+' is a Full House');
+      }
+    }
+  };
+  isFullHouse(allSortedCombinationCardValues);
+  console.log('There are '+fullHouseHands.length+' Full House arrays');
+  console.log(fullHouseHands);
 
-  console.log('isFullHouse =: '+isFullHouse);
+  //Function to see if there are Four Of A Kind arrays when called with the allSortedCombinationCardValues array. Uses the fourOfAKindChecker function.
+  var isFourOfAKind = function(array) {
+    for (var i=0;i<array.length;i++) {
+      if(fourOfAKindChecker(array[i])) {
+        fourOfAKindHands.push(array[i]);
+        // console.log(array[i]+' is a Four Of A Kind');
+      }
+    }
+  };
+  isFourOfAKind(allSortedCombinationCardValues);
+  console.log('There are '+fourOfAKindHands.length+' Four Of A Kind arrays');
+  console.log(fourOfAKindHands);
 
-  var isFourOfAKind = (fourOfAKindChecker(sortedCombinationCardValues1) || fourOfAKindChecker(sortedCombinationCardValues2) || fourOfAKindChecker(sortedCombinationCardValues3) || fourOfAKindChecker(sortedCombinationCardValues4) || fourOfAKindChecker(sortedCombinationCardValues5) || fourOfAKindChecker(sortedCombinationCardValues6) || fourOfAKindChecker(sortedCombinationCardValues7) || fourOfAKindChecker(sortedCombinationCardValues8) || fourOfAKindChecker(sortedCombinationCardValues9) || fourOfAKindChecker(sortedCombinationCardValues10) || fourOfAKindChecker(sortedCombinationCardValues11) || fourOfAKindChecker(sortedCombinationCardValues12) || fourOfAKindChecker(sortedCombinationCardValues13) || fourOfAKindChecker(sortedCombinationCardValues14) || fourOfAKindChecker(sortedCombinationCardValues15) || fourOfAKindChecker(sortedCombinationCardValues16) || fourOfAKindChecker(sortedCombinationCardValues17) || fourOfAKindChecker(sortedCombinationCardValues18) || fourOfAKindChecker(sortedCombinationCardValues19) || fourOfAKindChecker(sortedCombinationCardValues20) || fourOfAKindChecker(sortedCombinationCardValues21));
+  //Function to see if there are Straight arrays when called with the allSortedCombinationCardValues array. Uses the straightChecker function.
+  var isStraight = function(array) {
+    for (var i=0;i<array.length;i++) {
+      if(straightChecker(array[i])) {
+        straightHands.push(array[i]);
+        // console.log(array[i]+' is a Four Of A Kind');
+      }
+    }
+  };
+  isStraight(allSortedCombinationCardValues);
+  console.log('There are '+straightHands.length+' Straight arrays');
+  console.log(straightHands);
 
-  console.log('isFourOfAKind =: '+isFourOfAKind);
+  //Function to see if there are Three Of A Kind arrays when called with the allSortedCombinationCardValues array. Uses the threeOfAKindChecker function.
+  var isThreeOfAKind = function(array) {
+    for (var i=0;i<array.length;i++) {
+      if(threeOfAKindChecker(array[i])) {
+        threeOfAKindHands.push(array[i]);
+        // console.log(array[i]+' is a Three Of A Kind');
+      }
+    }
+  };
+  isThreeOfAKind(allSortedCombinationCardValues);
+  console.log('There are '+threeOfAKindHands.length+' Three Of A Kind arrays');
+  console.log(threeOfAKindHands);
 
-  var isStraight = (straightChecker(sortedCombinationCardValues1) || straightChecker(sortedCombinationCardValues2) || straightChecker(sortedCombinationCardValues3) || straightChecker(sortedCombinationCardValues4) || straightChecker(sortedCombinationCardValues5) || straightChecker(sortedCombinationCardValues6) || straightChecker(sortedCombinationCardValues7) || straightChecker(sortedCombinationCardValues8) || straightChecker(sortedCombinationCardValues9) || straightChecker(sortedCombinationCardValues10) || straightChecker(sortedCombinationCardValues11) || straightChecker(sortedCombinationCardValues12) || straightChecker(sortedCombinationCardValues13) || straightChecker(sortedCombinationCardValues14) || straightChecker(sortedCombinationCardValues15) || straightChecker(sortedCombinationCardValues16) || straightChecker(sortedCombinationCardValues17) || straightChecker(sortedCombinationCardValues18) || straightChecker(sortedCombinationCardValues19) || straightChecker(sortedCombinationCardValues20) || straightChecker(sortedCombinationCardValues21));
+  //Function to see if there are Two Pairs in an array when called with the allSortedCombinationCardValues array. Uses the twoPairChecker function.
+  var istwoPair = function(array) {
+    for (var i=0;i<array.length;i++) {
+      if(twoPairChecker(array[i])) {
+        twoPairHands.push(array[i]);
+        // console.log(array[i]+' is Two Pairs');
+      }
+    }
+  };
+  istwoPair(allSortedCombinationCardValues);
+  console.log('There are '+twoPairHands.length+' Two Pair arrays');
+  console.log(twoPairHands);
 
-  console.log('isStraight =: '+isStraight);
+  //Function to see if there is a Pair in an array when called with the allSortedCombinationCardValues array. Uses the pairChecker function.
+  var isPair = function(array) {
+    for (var i=0;i<array.length;i++) {
+      if(pairChecker(array[i])) {
+        pairedHands.push(array[i]);
+        // console.log(array[i]+' is Two Pairs');
+      }
+    }
+  };
+  isPair(allSortedCombinationCardValues);
+  console.log('There are '+pairedHands.length+' Paired arrays');
+  console.log(pairedHands);
 
-  var isStraightFlush = (straightFlushChecker(sortedCombinationCardValues1) || straightFlushChecker(sortedCombinationCardValues2) || straightFlushChecker(sortedCombinationCardValues3) || straightFlushChecker(sortedCombinationCardValues4) || straightFlushChecker(sortedCombinationCardValues5) || straightFlushChecker(sortedCombinationCardValues6) || straightFlushChecker(sortedCombinationCardValues7) || straightFlushChecker(sortedCombinationCardValues8) || straightFlushChecker(sortedCombinationCardValues9) || straightFlushChecker(sortedCombinationCardValues10) || straightFlushChecker(sortedCombinationCardValues11) || straightFlushChecker(sortedCombinationCardValues12) || straightFlushChecker(sortedCombinationCardValues13) || straightFlushChecker(sortedCombinationCardValues14) || straightFlushChecker(sortedCombinationCardValues15) || straightFlushChecker(sortedCombinationCardValues16) || straightFlushChecker(sortedCombinationCardValues17) || straightFlushChecker(sortedCombinationCardValues18) || straightFlushChecker(sortedCombinationCardValues19) || straightFlushChecker(sortedCombinationCardValues20) || straightFlushChecker(sortedCombinationCardValues21));
-
-  console.log('isStraightFlush =: '+isStraightFlush);
+  //Function to see what the highest card is within an array. Called with the allSortedCombinationCardValues array. Uses the highCardChecker function
+  highCardChecker();
+  console.log('Highest Card is: '+highestCard);
+  // console.log('High Card is 'Math.max(playerCard1));
 
 });
