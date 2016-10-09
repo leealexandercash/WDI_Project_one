@@ -34,6 +34,15 @@ $(function () {
 
   console.log(deckOfCards[playerCard1].value, deckOfCards[playerCard1].suitName, deckOfCards[playerCard2].value, deckOfCards[playerCard2].suitName, deckOfCards[computerCard1].value, deckOfCards[computerCard1].suitName, deckOfCards[computerCard2].value, deckOfCards[computerCard2].suitName, deckOfCards[flopCard1].value, deckOfCards[flopCard1].suitName, deckOfCards[flopCard2].value, deckOfCards[flopCard2].suitName, deckOfCards[flopCard3].value, deckOfCards[flopCard3].suitName, deckOfCards[turnCard].value, deckOfCards[turnCard].suitName, deckOfCards[riverCard].value, deckOfCards[riverCard].suitName);
 
+  //The image address of each card is a value on the deckOfCards object.
+
+  console.log(deckOfCards[playerCard1].image);
+
+  //Update the UI with the all the cards in view initially so that we can test more easily whilst developing the game
+  $('#userCardOne').prepend('<img height=100% src="images/'+deckOfCards[playerCard1].image+'" />');
+  $('#userCardTwo').prepend('<img height=100% src="images/'+deckOfCards[playerCard2].image+'" />');
+
+
   // A player's 'hand' will be determined by finding the highest value of possible hands that s/he could have by looking at a combination of cards from the array and scoring it against criteria for each hand type.
   // Possible arrays of cards values that we need to consider are sorted by descending value to make their analysis easier:-
   var sortedCombinationCardValues1 = [deckOfCards[playerCard1].value, deckOfCards[playerCard2].value, deckOfCards[flopCard1].value, deckOfCards[flopCard2].value, deckOfCards[flopCard3].value].sort(function(a, b) {return b-a;});
@@ -114,11 +123,36 @@ $(function () {
     }
   };
 
+  //Function to see if a hand is a straight (uses sortedCombinationCardValues) and simply checks to see if the numbers within the array are sequentially decreasing
+  var straightChecker = function(array) {
+    if ((array[1] === (array[0]-1)) && (array[2] === (array[1]-1)) && (array[3] === (array[2]-1)) && (array[4] === (array[3]-1))) {
+      return true;
+    } else {
+      return false;
+    }
+  };
 
+  //Function to see if a hand is a Straight Flush
+  var straightFlushChecker = function() {
+    if (isFlush && isStraight) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  //Variable which stores true or false for a Royal Flush
+  var royalFlushChecker = function(array) {
+    if (isStraightFlush && array[0]===14) {
+        return true;
+    } else {
+      return false;
+    }
+  };
 
   //Use these two arrays for testing
-  //sortedCombinationCardValues1 = [1,1,1,2,2];
-  //sortedCombinationCardSuits1 = [1,1,1,1,1];
+//  sortedCombinationCardValues1 = [5,4,3,2,1];
+//  sortedCombinationCardSuits1 = [1,1,1,1,2];
 
   var isFlush = (flushChecker(sortedCombinationCardSuits1) || flushChecker(sortedCombinationCardSuits2) || flushChecker(sortedCombinationCardSuits3) || flushChecker(sortedCombinationCardSuits4) || flushChecker(sortedCombinationCardSuits5) || flushChecker(sortedCombinationCardSuits6) || flushChecker(sortedCombinationCardSuits7) || flushChecker(sortedCombinationCardSuits8) || flushChecker(sortedCombinationCardSuits9) || flushChecker(sortedCombinationCardSuits10) || flushChecker(sortedCombinationCardSuits11) || flushChecker(sortedCombinationCardSuits12) || flushChecker(sortedCombinationCardSuits13) || flushChecker(sortedCombinationCardSuits14) || flushChecker(sortedCombinationCardSuits15) || flushChecker(sortedCombinationCardSuits16) || flushChecker(sortedCombinationCardSuits17) || flushChecker(sortedCombinationCardSuits18) || flushChecker(sortedCombinationCardSuits19) || flushChecker(sortedCombinationCardSuits20) || flushChecker(sortedCombinationCardSuits21));
 
@@ -131,5 +165,13 @@ $(function () {
   var isFourOfAKind = (fourOfAKindChecker(sortedCombinationCardValues1) || fourOfAKindChecker(sortedCombinationCardValues2) || fourOfAKindChecker(sortedCombinationCardValues3) || fourOfAKindChecker(sortedCombinationCardValues4) || fourOfAKindChecker(sortedCombinationCardValues5) || fourOfAKindChecker(sortedCombinationCardValues6) || fourOfAKindChecker(sortedCombinationCardValues7) || fourOfAKindChecker(sortedCombinationCardValues8) || fourOfAKindChecker(sortedCombinationCardValues9) || fourOfAKindChecker(sortedCombinationCardValues10) || fourOfAKindChecker(sortedCombinationCardValues11) || fourOfAKindChecker(sortedCombinationCardValues12) || fourOfAKindChecker(sortedCombinationCardValues13) || fourOfAKindChecker(sortedCombinationCardValues14) || fourOfAKindChecker(sortedCombinationCardValues15) || fourOfAKindChecker(sortedCombinationCardValues16) || fourOfAKindChecker(sortedCombinationCardValues17) || fourOfAKindChecker(sortedCombinationCardValues18) || fourOfAKindChecker(sortedCombinationCardValues19) || fourOfAKindChecker(sortedCombinationCardValues20) || fourOfAKindChecker(sortedCombinationCardValues21));
 
   console.log('isFourOfAKind =: '+isFourOfAKind);
+
+  var isStraight = (straightChecker(sortedCombinationCardValues1) || straightChecker(sortedCombinationCardValues2) || straightChecker(sortedCombinationCardValues3) || straightChecker(sortedCombinationCardValues4) || straightChecker(sortedCombinationCardValues5) || straightChecker(sortedCombinationCardValues6) || straightChecker(sortedCombinationCardValues7) || straightChecker(sortedCombinationCardValues8) || straightChecker(sortedCombinationCardValues9) || straightChecker(sortedCombinationCardValues10) || straightChecker(sortedCombinationCardValues11) || straightChecker(sortedCombinationCardValues12) || straightChecker(sortedCombinationCardValues13) || straightChecker(sortedCombinationCardValues14) || straightChecker(sortedCombinationCardValues15) || straightChecker(sortedCombinationCardValues16) || straightChecker(sortedCombinationCardValues17) || straightChecker(sortedCombinationCardValues18) || straightChecker(sortedCombinationCardValues19) || straightChecker(sortedCombinationCardValues20) || straightChecker(sortedCombinationCardValues21));
+
+  console.log('isStraight =: '+isStraight);
+
+  var isStraightFlush = (straightFlushChecker(sortedCombinationCardValues1) || straightFlushChecker(sortedCombinationCardValues2) || straightFlushChecker(sortedCombinationCardValues3) || straightFlushChecker(sortedCombinationCardValues4) || straightFlushChecker(sortedCombinationCardValues5) || straightFlushChecker(sortedCombinationCardValues6) || straightFlushChecker(sortedCombinationCardValues7) || straightFlushChecker(sortedCombinationCardValues8) || straightFlushChecker(sortedCombinationCardValues9) || straightFlushChecker(sortedCombinationCardValues10) || straightFlushChecker(sortedCombinationCardValues11) || straightFlushChecker(sortedCombinationCardValues12) || straightFlushChecker(sortedCombinationCardValues13) || straightFlushChecker(sortedCombinationCardValues14) || straightFlushChecker(sortedCombinationCardValues15) || straightFlushChecker(sortedCombinationCardValues16) || straightFlushChecker(sortedCombinationCardValues17) || straightFlushChecker(sortedCombinationCardValues18) || straightFlushChecker(sortedCombinationCardValues19) || straightFlushChecker(sortedCombinationCardValues20) || straightFlushChecker(sortedCombinationCardValues21));
+
+console.log('isStraightFlush =: '+isStraightFlush);
 
 });

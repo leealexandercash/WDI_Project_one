@@ -11,6 +11,12 @@ h1 {
 
 }
 
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto
+  }
+
 .statusArea {
   display: inline-block;
   width: 23%;
@@ -102,15 +108,15 @@ border-radius: 30px;
   display: inline-block;
   width: 100px;
   height: 140px;
-  background-color: red;
+  background-color: white;
+
 }
 #userCardTwo {
   float: right;
   display: inline-block;
   width: 100px;
   height: 140px;
-  background-color: red;
-  margin: 0 10px auto;
+  background-color: white;
 }
 .bettingButtons {
   display: inline-block;
