@@ -55,12 +55,12 @@ border-radius: 30px;
   background-size: cover;
 }
   .boardCardContainer {
-    margin: 30px auto;
-    width: 325px;
+    margin: auto;
+    width: 370px;
     height: 100px;
-    background-color: lightblue;
+    background-color: lightgreen;
     border-top: 100px;
-    top: 20px:
+
 }
 .userArea {
   display: block;
@@ -82,21 +82,21 @@ border-radius: 30px;
 }
 .computerCards {
   display: inline-block;
-  width: 380px;
+  width: 350px;
   height: 150px;
   margin: auto;
 }
 #computerCardOne {
   display: inline-block;
-  width: 100px;
+  width: 96px;
   height: 140px;
-  background-color: red;
+  background-color: white;
 }
 #computerCardTwo {
   display: inline-block;
-  width: 100px;
+  width: 96px;
   height: 140px;
-  background-color: red;
+  background-color: white;
 }
 
 .userCards {
@@ -106,7 +106,7 @@ border-radius: 30px;
 }
 #userCardOne {
   display: inline-block;
-  width: 100px;
+  width: 96px;
   height: 140px;
   background-color: white;
 
@@ -114,7 +114,7 @@ border-radius: 30px;
 #userCardTwo {
   float: right;
   display: inline-block;
-  width: 100px;
+  width: 96px;
   height: 140px;
   background-color: white;
 }
@@ -141,4 +141,9 @@ border-radius: 30px;
   width: 100px;
   height: 100px;
   margin: 25px 25px 0 25px;
+}
+.boardCard {
+  border: 1px solid black;
+  display: inline-block;
+  background-color: white;
 }

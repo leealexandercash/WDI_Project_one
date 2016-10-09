@@ -32,6 +32,8 @@ $(function () {
   var turnCard = cardsSelectedForPlay[7];
   var riverCard = cardsSelectedForPlay[8];
 
+  var flushHands = [];
+
   console.log(deckOfCards[playerCard1].value, deckOfCards[playerCard1].suitName, deckOfCards[playerCard2].value, deckOfCards[playerCard2].suitName, deckOfCards[computerCard1].value, deckOfCards[computerCard1].suitName, deckOfCards[computerCard2].value, deckOfCards[computerCard2].suitName, deckOfCards[flopCard1].value, deckOfCards[flopCard1].suitName, deckOfCards[flopCard2].value, deckOfCards[flopCard2].suitName, deckOfCards[flopCard3].value, deckOfCards[flopCard3].suitName, deckOfCards[turnCard].value, deckOfCards[turnCard].suitName, deckOfCards[riverCard].value, deckOfCards[riverCard].suitName);
 
   //The image address of each card is a value on the deckOfCards object.
@@ -41,6 +43,13 @@ $(function () {
   //Update the UI with the all the cards in view initially so that we can test more easily whilst developing the game
   $('#userCardOne').prepend('<img height=100% src="images/'+deckOfCards[playerCard1].image+'" />');
   $('#userCardTwo').prepend('<img height=100% src="images/'+deckOfCards[playerCard2].image+'" />');
+  $('#computerCardOne').prepend('<img height=100% src="images/'+deckOfCards[computerCard1].image+'" />');
+  $('#computerCardTwo').append('<img height=100% src="images/'+deckOfCards[computerCard2].image+'" />');
+  $('#flopCard1').append('<img height=100px src="images/'+deckOfCards[flopCard1].image+'" />');
+  $('#flopCard2').append('<img height=100px src="images/'+deckOfCards[flopCard2].image+'" />');
+  $('#flopCard3').append('<img height=100px src="images/'+deckOfCards[flopCard3].image+'" />');
+  $('#turnCard').append('<img height=100px src="images/'+deckOfCards[turnCard].image+'" />');
+  $('#riverCard').append('<img height=100px src="images/'+deckOfCards[riverCard].image+'" />');
 
 
   // A player's 'hand' will be determined by finding the highest value of possible hands that s/he could have by looking at a combination of cards from the array and scoring it against criteria for each hand type.
@@ -144,19 +153,35 @@ $(function () {
   //Variable which stores true or false for a Royal Flush
   var royalFlushChecker = function(array) {
     if (isStraightFlush && array[0]===14) {
-        return true;
+      return true;
     } else {
       return false;
     }
   };
 
   //Use these two arrays for testing
-//  sortedCombinationCardValues1 = [5,4,3,2,1];
-//  sortedCombinationCardSuits1 = [1,1,1,1,2];
+  //  sortedCombinationCardValues1 = [5,4,3,2,1];
+  sortedCombinationCardSuits1 = [1,1,1,1,1];
+  sortedCombinationCardSuits2 = [2,2,2,2,2];
 
-  var isFlush = (flushChecker(sortedCombinationCardSuits1) || flushChecker(sortedCombinationCardSuits2) || flushChecker(sortedCombinationCardSuits3) || flushChecker(sortedCombinationCardSuits4) || flushChecker(sortedCombinationCardSuits5) || flushChecker(sortedCombinationCardSuits6) || flushChecker(sortedCombinationCardSuits7) || flushChecker(sortedCombinationCardSuits8) || flushChecker(sortedCombinationCardSuits9) || flushChecker(sortedCombinationCardSuits10) || flushChecker(sortedCombinationCardSuits11) || flushChecker(sortedCombinationCardSuits12) || flushChecker(sortedCombinationCardSuits13) || flushChecker(sortedCombinationCardSuits14) || flushChecker(sortedCombinationCardSuits15) || flushChecker(sortedCombinationCardSuits16) || flushChecker(sortedCombinationCardSuits17) || flushChecker(sortedCombinationCardSuits18) || flushChecker(sortedCombinationCardSuits19) || flushChecker(sortedCombinationCardSuits20) || flushChecker(sortedCombinationCardSuits21));
+  var allSortedCombinationCardValues = [sortedCombinationCardValues1, sortedCombinationCardValues2, sortedCombinationCardValues3, sortedCombinationCardValues4, sortedCombinationCardValues5, sortedCombinationCardValues6, sortedCombinationCardValues7, sortedCombinationCardValues8, sortedCombinationCardValues9, sortedCombinationCardValues10, sortedCombinationCardValues11, sortedCombinationCardValues12, sortedCombinationCardValues13, sortedCombinationCardValues14, sortedCombinationCardValues15, sortedCombinationCardValues16, sortedCombinationCardValues17, sortedCombinationCardValues18, sortedCombinationCardValues19, sortedCombinationCardValues20, sortedCombinationCardValues21];
 
-  console.log('isFlush=: '+isFlush);
+  var allSortedCombinationCardSuits = [sortedCombinationCardSuits1, sortedCombinationCardSuits2, sortedCombinationCardSuits3, sortedCombinationCardSuits4, sortedCombinationCardSuits5, sortedCombinationCardSuits6, sortedCombinationCardSuits7, sortedCombinationCardSuits8, sortedCombinationCardSuits9, sortedCombinationCardSuits10, sortedCombinationCardSuits11, sortedCombinationCardSuits12, sortedCombinationCardSuits13, sortedCombinationCardSuits14, sortedCombinationCardSuits15, sortedCombinationCardSuits16, sortedCombinationCardSuits17, sortedCombinationCardSuits18, sortedCombinationCardSuits19, sortedCombinationCardSuits20, sortedCombinationCardSuits21];
+
+  var isFlush = function(array) {
+    for (var i=0;i<array.length;i++) {
+      if(flushChecker(array[i])) {
+        flushHands.push(array[i]);
+        console.log(array[i]+' is a flush');
+      } else {
+        //console.log('tried '+[i]);
+      }
+    }
+  };
+  isFlush(allSortedCombinationCardSuits);
+
+  console.log(flushHands);
+  console.log(flushHands.length);
 
   var isFullHouse = (fullHouseChecker(sortedCombinationCardValues1) || fullHouseChecker(sortedCombinationCardValues2) || fullHouseChecker(sortedCombinationCardValues3) || fullHouseChecker(sortedCombinationCardValues4) || fullHouseChecker(sortedCombinationCardValues5) || fullHouseChecker(sortedCombinationCardValues6) || fullHouseChecker(sortedCombinationCardValues7) || fullHouseChecker(sortedCombinationCardValues8) || fullHouseChecker(sortedCombinationCardValues9) || fullHouseChecker(sortedCombinationCardValues10) || fullHouseChecker(sortedCombinationCardValues11) || fullHouseChecker(sortedCombinationCardValues12) || fullHouseChecker(sortedCombinationCardValues13) || fullHouseChecker(sortedCombinationCardValues14) || fullHouseChecker(sortedCombinationCardValues15) || fullHouseChecker(sortedCombinationCardValues16) || fullHouseChecker(sortedCombinationCardValues17) || fullHouseChecker(sortedCombinationCardValues18) || fullHouseChecker(sortedCombinationCardValues19) || fullHouseChecker(sortedCombinationCardValues20) || fullHouseChecker(sortedCombinationCardValues21));
 
@@ -172,6 +197,6 @@ $(function () {
 
   var isStraightFlush = (straightFlushChecker(sortedCombinationCardValues1) || straightFlushChecker(sortedCombinationCardValues2) || straightFlushChecker(sortedCombinationCardValues3) || straightFlushChecker(sortedCombinationCardValues4) || straightFlushChecker(sortedCombinationCardValues5) || straightFlushChecker(sortedCombinationCardValues6) || straightFlushChecker(sortedCombinationCardValues7) || straightFlushChecker(sortedCombinationCardValues8) || straightFlushChecker(sortedCombinationCardValues9) || straightFlushChecker(sortedCombinationCardValues10) || straightFlushChecker(sortedCombinationCardValues11) || straightFlushChecker(sortedCombinationCardValues12) || straightFlushChecker(sortedCombinationCardValues13) || straightFlushChecker(sortedCombinationCardValues14) || straightFlushChecker(sortedCombinationCardValues15) || straightFlushChecker(sortedCombinationCardValues16) || straightFlushChecker(sortedCombinationCardValues17) || straightFlushChecker(sortedCombinationCardValues18) || straightFlushChecker(sortedCombinationCardValues19) || straightFlushChecker(sortedCombinationCardValues20) || straightFlushChecker(sortedCombinationCardValues21));
 
-console.log('isStraightFlush =: '+isStraightFlush);
+  console.log('isStraightFlush =: '+isStraightFlush);
 
 });
