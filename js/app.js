@@ -1,13 +1,12 @@
 $(function () {
 
-  // deckOfCards looks like this
+  // deckOfCards looks like this and is stored as an object on the window.
   //   {name: 'two of clubs', value: 2, suit: 1, suitName: clubs, image: '2clubs.png'},
 
+  // let's create a variable to hold all the cards that will be used in the hand.
   var cardsSelectedForPlay = [];
 
-  //  console.log(deckOfCards);
-
-  //define a function that selects 9 random cards from the deck.
+  //define a function that selects 9 random UNIQUE cards from the deck.
   var dealCards = function () {
     for (var i=0; i<9; i++) {
       var newCard = ((Math.floor(Math.random()*deckOfCards.length)));
@@ -32,14 +31,11 @@ $(function () {
   var flopCard3 = cardsSelectedForPlay[6];
   var turnCard = cardsSelectedForPlay[7];
   var riverCard = cardsSelectedForPlay[8];
-  var player = 'player';
 
   console.log(deckOfCards[playerCard1].value, deckOfCards[playerCard1].suitName, deckOfCards[playerCard2].value, deckOfCards[playerCard2].suitName, deckOfCards[computerCard1].value, deckOfCards[computerCard1].suitName, deckOfCards[computerCard2].value, deckOfCards[computerCard2].suitName, deckOfCards[flopCard1].value, deckOfCards[flopCard1].suitName, deckOfCards[flopCard2].value, deckOfCards[flopCard2].suitName, deckOfCards[flopCard3].value, deckOfCards[flopCard3].suitName, deckOfCards[turnCard].value, deckOfCards[turnCard].suitName, deckOfCards[riverCard].value, deckOfCards[riverCard].suitName);
 
   // A player's 'hand' will be determined by finding the highest value of possible hands that s/he could have by looking at a combination of cards from the array and scoring it against criteria for each hand type.
-
-
-  // Possible arrays of cards values that we need to consider are:-
+  // Possible arrays of cards values that we need to consider are sorted by descending value to make their analysis easier:-
   var sortedCombinationCardValues1 = [deckOfCards[playerCard1].value, deckOfCards[playerCard2].value, deckOfCards[flopCard1].value, deckOfCards[flopCard2].value, deckOfCards[flopCard3].value].sort(function(a, b) {return b-a;});
   var sortedCombinationCardValues2 = [deckOfCards[playerCard1].value, deckOfCards[playerCard2].value, deckOfCards[flopCard1].value, deckOfCards[flopCard2].value, deckOfCards[turnCard].value].sort(function(a, b) {return b-a;});
   var sortedCombinationCardValues3 = [deckOfCards[playerCard1].value, deckOfCards[playerCard2].value, deckOfCards[flopCard1].value, deckOfCards[flopCard2].value, deckOfCards[riverCard].value].sort(function(a, b) {return b-a;});
@@ -64,42 +60,76 @@ $(function () {
 
   console.log(sortedCombinationCardValues1, sortedCombinationCardValues2, sortedCombinationCardValues3, sortedCombinationCardValues4, sortedCombinationCardValues5, sortedCombinationCardValues6, sortedCombinationCardValues7, sortedCombinationCardValues8, sortedCombinationCardValues9, sortedCombinationCardValues10, sortedCombinationCardValues11, sortedCombinationCardValues12, sortedCombinationCardValues13, sortedCombinationCardValues14, sortedCombinationCardValues15, sortedCombinationCardValues16, sortedCombinationCardValues17, sortedCombinationCardValues18, sortedCombinationCardValues19, sortedCombinationCardValues20, sortedCombinationCardValues21);
 
-  // Possible arrays of card suits that we also need to consider are:-
+  // Similarly, we need to know the suited values of the cards so that we can check for a flush, a stright flush and a Royal Flush:-
+  var sortedCombinationCardSuits1 = [deckOfCards[playerCard1].suit, deckOfCards[playerCard2].suit, deckOfCards[flopCard1].suit, deckOfCards[flopCard2].suit, deckOfCards[flopCard3].suit].sort(function(a, b) {return b-a;});
+  var sortedCombinationCardSuits2 = [deckOfCards[playerCard1].suit, deckOfCards[playerCard2].suit, deckOfCards[flopCard1].suit, deckOfCards[flopCard2].suit, deckOfCards[turnCard].suit].sort(function(a, b) {return b-a;});
+  var sortedCombinationCardSuits3 = [deckOfCards[playerCard1].suit, deckOfCards[playerCard2].suit, deckOfCards[flopCard1].suit, deckOfCards[flopCard2].suit, deckOfCards[riverCard].suit].sort(function(a, b) {return b-a;});
+  var sortedCombinationCardSuits4 = [deckOfCards[playerCard1].suit, deckOfCards[playerCard2].suit, deckOfCards[flopCard1].suit, deckOfCards[flopCard3].suit, deckOfCards[turnCard].suit].sort(function(a, b) {return b-a;});
+  var sortedCombinationCardSuits5 = [deckOfCards[playerCard1].suit, deckOfCards[playerCard2].suit, deckOfCards[flopCard1].suit, deckOfCards[flopCard3].suit, deckOfCards[riverCard].suit].sort(function(a, b) {return b-a;});
+  var sortedCombinationCardSuits6 = [deckOfCards[playerCard1].suit, deckOfCards[playerCard2].suit, deckOfCards[flopCard1].suit, deckOfCards[turnCard].suit, deckOfCards[riverCard].suit].sort(function(a, b) {return b-a;});
+  var sortedCombinationCardSuits7 = [deckOfCards[playerCard1].suit, deckOfCards[playerCard2].suit, deckOfCards[flopCard2].suit, deckOfCards[flopCard3].suit, deckOfCards[turnCard].suit].sort(function(a, b) {return b-a;});
+  var sortedCombinationCardSuits8 = [deckOfCards[playerCard1].suit, deckOfCards[playerCard2].suit, deckOfCards[flopCard2].suit, deckOfCards[flopCard3].suit, deckOfCards[riverCard].suit].sort(function(a, b) {return b-a;});
+  var sortedCombinationCardSuits9 = [deckOfCards[playerCard1].suit, deckOfCards[playerCard2].suit, deckOfCards[flopCard2].suit, deckOfCards[turnCard].suit, deckOfCards[riverCard].suit].sort(function(a, b) {return b-a;});
+  var sortedCombinationCardSuits10 = [deckOfCards[playerCard1].suit, deckOfCards[playerCard2].suit, deckOfCards[flopCard3].suit, deckOfCards[turnCard].suit, deckOfCards[riverCard].suit].sort(function(a, b) {return b-a;});
+  var sortedCombinationCardSuits11 = [deckOfCards[playerCard1].suit, deckOfCards[flopCard1].suit, deckOfCards[flopCard2].suit, deckOfCards[flopCard3].suit, deckOfCards[turnCard].suit].sort(function(a, b) {return b-a;});
+  var sortedCombinationCardSuits12 = [deckOfCards[playerCard1].suit, deckOfCards[flopCard1].suit, deckOfCards[flopCard2].suit, deckOfCards[flopCard3].suit, deckOfCards[riverCard].suit].sort(function(a, b) {return b-a;});
+  var sortedCombinationCardSuits13 = [deckOfCards[playerCard1].suit, deckOfCards[flopCard1].suit, deckOfCards[flopCard2].suit, deckOfCards[turnCard].suit, deckOfCards[riverCard].suit].sort(function(a, b) {return b-a;});
+  var sortedCombinationCardSuits14 = [deckOfCards[playerCard1].suit, deckOfCards[flopCard1].suit, deckOfCards[flopCard3].suit, deckOfCards[turnCard].suit, deckOfCards[riverCard].suit].sort(function(a, b) {return b-a;});
+  var sortedCombinationCardSuits15 = [deckOfCards[playerCard1].suit, deckOfCards[flopCard2].suit, deckOfCards[flopCard3].suit, deckOfCards[turnCard].suit, deckOfCards[riverCard].suit].sort(function(a, b) {return b-a;});
+  var sortedCombinationCardSuits16 = [deckOfCards[playerCard2].suit, deckOfCards[flopCard1].suit, deckOfCards[flopCard2].suit, deckOfCards[flopCard3].suit, deckOfCards[turnCard].suit].sort(function(a, b) {return b-a;});
+  var sortedCombinationCardSuits17 = [deckOfCards[playerCard2].suit, deckOfCards[flopCard1].suit, deckOfCards[flopCard2].suit, deckOfCards[flopCard3].suit, deckOfCards[riverCard].suit].sort(function(a, b) {return b-a;});
+  var sortedCombinationCardSuits18 = [deckOfCards[playerCard2].suit, deckOfCards[flopCard1].suit, deckOfCards[flopCard2].suit, deckOfCards[turnCard].suit, deckOfCards[riverCard].suit].sort(function(a, b) {return b-a;});
+  var sortedCombinationCardSuits19 = [deckOfCards[playerCard2].suit, deckOfCards[flopCard1].suit, deckOfCards[flopCard3].suit, deckOfCards[turnCard].suit, deckOfCards[riverCard].suit].sort(function(a, b) {return b-a;});
+  var sortedCombinationCardSuits20 = [deckOfCards[playerCard2].suit, deckOfCards[flopCard2].suit, deckOfCards[flopCard3].suit, deckOfCards[turnCard].suit, deckOfCards[riverCard].suit].sort(function(a, b) {return b-a;});
+  var sortedCombinationCardSuits21 = [deckOfCards[flopCard1].suit, deckOfCards[flopCard2].suit, deckOfCards[flopCard3].suit, deckOfCards[turnCard].suit, deckOfCards[riverCard].suit].sort(function(a, b) {return b-a;});
 
-  var sortedCombinationCardsuits1 = [deckOfCards[playerCard1].suit, deckOfCards[playerCard2].suit, deckOfCards[flopCard1].suit, deckOfCards[flopCard2].suit, deckOfCards[flopCard3].suit].sort(function(a, b) {return b-a;});
-  var sortedCombinationCardsuits2 = [deckOfCards[playerCard1].suit, deckOfCards[playerCard2].suit, deckOfCards[flopCard1].suit, deckOfCards[flopCard2].suit, deckOfCards[turnCard].suit].sort(function(a, b) {return b-a;});
-  var sortedCombinationCardsuits3 = [deckOfCards[playerCard1].suit, deckOfCards[playerCard2].suit, deckOfCards[flopCard1].suit, deckOfCards[flopCard2].suit, deckOfCards[riverCard].suit].sort(function(a, b) {return b-a;});
-  var sortedCombinationCardsuits4 = [deckOfCards[playerCard1].suit, deckOfCards[playerCard2].suit, deckOfCards[flopCard1].suit, deckOfCards[flopCard3].suit, deckOfCards[turnCard].suit].sort(function(a, b) {return b-a;});
-  var sortedCombinationCardsuits5 = [deckOfCards[playerCard1].suit, deckOfCards[playerCard2].suit, deckOfCards[flopCard1].suit, deckOfCards[flopCard3].suit, deckOfCards[riverCard].suit].sort(function(a, b) {return b-a;});
-  var sortedCombinationCardsuits6 = [deckOfCards[playerCard1].suit, deckOfCards[playerCard2].suit, deckOfCards[flopCard1].suit, deckOfCards[turnCard].suit, deckOfCards[riverCard].suit].sort(function(a, b) {return b-a;});
-  var sortedCombinationCardsuits7 = [deckOfCards[playerCard1].suit, deckOfCards[playerCard2].suit, deckOfCards[flopCard2].suit, deckOfCards[flopCard3].suit, deckOfCards[turnCard].suit].sort(function(a, b) {return b-a;});
-  var sortedCombinationCardsuits8 = [deckOfCards[playerCard1].suit, deckOfCards[playerCard2].suit, deckOfCards[flopCard2].suit, deckOfCards[flopCard3].suit, deckOfCards[riverCard].suit].sort(function(a, b) {return b-a;});
-  var sortedCombinationCardsuits9 = [deckOfCards[playerCard1].suit, deckOfCards[playerCard2].suit, deckOfCards[flopCard2].suit, deckOfCards[turnCard].suit, deckOfCards[riverCard].suit].sort(function(a, b) {return b-a;});
-  var sortedCombinationCardsuits10 = [deckOfCards[playerCard1].suit, deckOfCards[playerCard2].suit, deckOfCards[flopCard3].suit, deckOfCards[turnCard].suit, deckOfCards[riverCard].suit].sort(function(a, b) {return b-a;});
-  var sortedCombinationCardsuits11 = [deckOfCards[playerCard1].suit, deckOfCards[flopCard1].suit, deckOfCards[flopCard2].suit, deckOfCards[flopCard3].suit, deckOfCards[turnCard].suit].sort(function(a, b) {return b-a;});
-  var sortedCombinationCardsuits12 = [deckOfCards[playerCard1].suit, deckOfCards[flopCard1].suit, deckOfCards[flopCard2].suit, deckOfCards[flopCard3].suit, deckOfCards[riverCard].suit].sort(function(a, b) {return b-a;});
-  var sortedCombinationCardsuits13 = [deckOfCards[playerCard1].suit, deckOfCards[flopCard1].suit, deckOfCards[flopCard2].suit, deckOfCards[turnCard].suit, deckOfCards[riverCard].suit].sort(function(a, b) {return b-a;});
-  var sortedCombinationCardsuits14 = [deckOfCards[playerCard1].suit, deckOfCards[flopCard1].suit, deckOfCards[flopCard3].suit, deckOfCards[turnCard].suit, deckOfCards[riverCard].suit].sort(function(a, b) {return b-a;});
-  var sortedCombinationCardsuits15 = [deckOfCards[playerCard1].suit, deckOfCards[flopCard2].suit, deckOfCards[flopCard3].suit, deckOfCards[turnCard].suit, deckOfCards[riverCard].suit].sort(function(a, b) {return b-a;});
-  var sortedCombinationCardsuits16 = [deckOfCards[playerCard2].suit, deckOfCards[flopCard1].suit, deckOfCards[flopCard2].suit, deckOfCards[flopCard3].suit, deckOfCards[turnCard].suit].sort(function(a, b) {return b-a;});
-  var sortedCombinationCardsuits17 = [deckOfCards[playerCard2].suit, deckOfCards[flopCard1].suit, deckOfCards[flopCard2].suit, deckOfCards[flopCard3].suit, deckOfCards[riverCard].suit].sort(function(a, b) {return b-a;});
-  var sortedCombinationCardsuits18 = [deckOfCards[playerCard2].suit, deckOfCards[flopCard1].suit, deckOfCards[flopCard2].suit, deckOfCards[turnCard].suit, deckOfCards[riverCard].suit].sort(function(a, b) {return b-a;});
-  var sortedCombinationCardsuits19 = [deckOfCards[playerCard2].suit, deckOfCards[flopCard1].suit, deckOfCards[flopCard3].suit, deckOfCards[turnCard].suit, deckOfCards[riverCard].suit].sort(function(a, b) {return b-a;});
-  var sortedCombinationCardsuits20 = [deckOfCards[playerCard2].suit, deckOfCards[flopCard2].suit, deckOfCards[flopCard3].suit, deckOfCards[turnCard].suit, deckOfCards[riverCard].suit].sort(function(a, b) {return b-a;});
-  var sortedCombinationCardsuits21 = [deckOfCards[flopCard1].suit, deckOfCards[flopCard2].suit, deckOfCards[flopCard3].suit, deckOfCards[turnCard].suit, deckOfCards[riverCard].suit].sort(function(a, b) {return b-a;});
+  // console.log(sortedCombinationCardSuits1, sortedCombinationCardSuits2, sortedCombinationCardSuits3, sortedCombinationCardSuits4, sortedCombinationCardSuits5, sortedCombinationCardSuits6, sortedCombinationCardSuits7, sortedCombinationCardSuits8, sortedCombinationCardSuits9, sortedCombinationCardSuits10, sortedCombinationCardSuits11, sortedCombinationCardSuits12, sortedCombinationCardSuits13, sortedCombinationCardSuits14, sortedCombinationCardSuits15, sortedCombinationCardSuits16, sortedCombinationCardSuits17, sortedCombinationCardSuits18, sortedCombinationCardSuits19, sortedCombinationCardSuits20, sortedCombinationCardSuits21);
 
-  console.log(sortedCombinationCardsuits1, sortedCombinationCardsuits2, sortedCombinationCardsuits3, sortedCombinationCardsuits4, sortedCombinationCardsuits5, sortedCombinationCardsuits6, sortedCombinationCardsuits7, sortedCombinationCardsuits8, sortedCombinationCardsuits9, sortedCombinationCardsuits10, sortedCombinationCardsuits11, sortedCombinationCardsuits12, sortedCombinationCardsuits13, sortedCombinationCardsuits14, sortedCombinationCardsuits15, sortedCombinationCardsuits16, sortedCombinationCardsuits17, sortedCombinationCardsuits18, sortedCombinationCardsuits19, sortedCombinationCardsuits20, sortedCombinationCardsuits21);
+  //We can now write functions that will check for the various hands and run the combinations through them to check if they are true.
 
-  function flushChecker(array) {
+  //Function to see if a hand is Four of a Kind
+  var fourOfAKindChecker = function(array) {
+    if ((array[0] === array[3]) || (array[1] === array[4])) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  //Function to see if a hand is a full house. Uses sortedCombinationCardValues arrays and compares the first three cards and the last two cards (and vice versa) to see if the cards within those ranges are the same.
+  var fullHouseChecker = function(array) {
+    if (((array[0] === array[2]) && (array[3] === array[4])) || ((array[0] === array[1]) && (array[2] === array[4]))) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  //Function to see if a hand is a flush (uses sortedCombinationCardSuits arrays)
+  var flushChecker = function(array) {
     if (array[0] === array[4]) {
       return true;
     } else {
       return false;
     }
-  }
+  };
 
-  var isFlush = (flushChecker(sortedCombinationCardsuits1) || flushChecker(sortedCombinationCardsuits2) || flushChecker(sortedCombinationCardsuits3) || flushChecker(sortedCombinationCardsuits4) || flushChecker(sortedCombinationCardsuits5) || flushChecker(sortedCombinationCardsuits6) || flushChecker(sortedCombinationCardsuits7) || flushChecker(sortedCombinationCardsuits8) || flushChecker(sortedCombinationCardsuits9) || flushChecker(sortedCombinationCardsuits10) || flushChecker(sortedCombinationCardsuits11) || flushChecker(sortedCombinationCardsuits12) || flushChecker(sortedCombinationCardsuits13) || flushChecker(sortedCombinationCardsuits14) || flushChecker(sortedCombinationCardsuits15) || flushChecker(sortedCombinationCardsuits16) || flushChecker(sortedCombinationCardsuits17) || flushChecker(sortedCombinationCardsuits18) || flushChecker(sortedCombinationCardsuits19) || flushChecker(sortedCombinationCardsuits20) || flushChecker(sortedCombinationCardsuits21));
 
-  console.log(isFlush);
+
+  //Use these two arrays for testing
+  //sortedCombinationCardValues1 = [1,1,1,2,2];
+  //sortedCombinationCardSuits1 = [1,1,1,1,1];
+
+  var isFlush = (flushChecker(sortedCombinationCardSuits1) || flushChecker(sortedCombinationCardSuits2) || flushChecker(sortedCombinationCardSuits3) || flushChecker(sortedCombinationCardSuits4) || flushChecker(sortedCombinationCardSuits5) || flushChecker(sortedCombinationCardSuits6) || flushChecker(sortedCombinationCardSuits7) || flushChecker(sortedCombinationCardSuits8) || flushChecker(sortedCombinationCardSuits9) || flushChecker(sortedCombinationCardSuits10) || flushChecker(sortedCombinationCardSuits11) || flushChecker(sortedCombinationCardSuits12) || flushChecker(sortedCombinationCardSuits13) || flushChecker(sortedCombinationCardSuits14) || flushChecker(sortedCombinationCardSuits15) || flushChecker(sortedCombinationCardSuits16) || flushChecker(sortedCombinationCardSuits17) || flushChecker(sortedCombinationCardSuits18) || flushChecker(sortedCombinationCardSuits19) || flushChecker(sortedCombinationCardSuits20) || flushChecker(sortedCombinationCardSuits21));
+
+  console.log('isFlush=: '+isFlush);
+
+  var isFullHouse = (fullHouseChecker(sortedCombinationCardValues1) || fullHouseChecker(sortedCombinationCardValues2) || fullHouseChecker(sortedCombinationCardValues3) || fullHouseChecker(sortedCombinationCardValues4) || fullHouseChecker(sortedCombinationCardValues5) || fullHouseChecker(sortedCombinationCardValues6) || fullHouseChecker(sortedCombinationCardValues7) || fullHouseChecker(sortedCombinationCardValues8) || fullHouseChecker(sortedCombinationCardValues9) || fullHouseChecker(sortedCombinationCardValues10) || fullHouseChecker(sortedCombinationCardValues11) || fullHouseChecker(sortedCombinationCardValues12) || fullHouseChecker(sortedCombinationCardValues13) || fullHouseChecker(sortedCombinationCardValues14) || fullHouseChecker(sortedCombinationCardValues15) || fullHouseChecker(sortedCombinationCardValues16) || fullHouseChecker(sortedCombinationCardValues17) || fullHouseChecker(sortedCombinationCardValues18) || fullHouseChecker(sortedCombinationCardValues19) || fullHouseChecker(sortedCombinationCardValues20) || fullHouseChecker(sortedCombinationCardValues21));
+
+  console.log('isFullHouse =: '+isFullHouse);
+
+  var isFourOfAKind = (fourOfAKindChecker(sortedCombinationCardValues1) || fourOfAKindChecker(sortedCombinationCardValues2) || fourOfAKindChecker(sortedCombinationCardValues3) || fourOfAKindChecker(sortedCombinationCardValues4) || fourOfAKindChecker(sortedCombinationCardValues5) || fourOfAKindChecker(sortedCombinationCardValues6) || fourOfAKindChecker(sortedCombinationCardValues7) || fourOfAKindChecker(sortedCombinationCardValues8) || fourOfAKindChecker(sortedCombinationCardValues9) || fourOfAKindChecker(sortedCombinationCardValues10) || fourOfAKindChecker(sortedCombinationCardValues11) || fourOfAKindChecker(sortedCombinationCardValues12) || fourOfAKindChecker(sortedCombinationCardValues13) || fourOfAKindChecker(sortedCombinationCardValues14) || fourOfAKindChecker(sortedCombinationCardValues15) || fourOfAKindChecker(sortedCombinationCardValues16) || fourOfAKindChecker(sortedCombinationCardValues17) || fourOfAKindChecker(sortedCombinationCardValues18) || fourOfAKindChecker(sortedCombinationCardValues19) || fourOfAKindChecker(sortedCombinationCardValues20) || fourOfAKindChecker(sortedCombinationCardValues21));
+
+  console.log('isFourOfAKind =: '+isFourOfAKind);
 
 });

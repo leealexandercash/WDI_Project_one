@@ -1,7 +1,7 @@
 # WDI_Project_one
 Lee Cash's first project at the end of module one of WDI-23
 
-I borrowed some images from this website. https://github.com/hayeah/playing-cards-assets.
+I borrowed some images from this website. https://github.com/hayeah/playing-cards-assets. Aspect ratio is 1.454954955
 
 I created an object called 'deckOfCards' where I stored the values required to display aspects of the gameplay to the user interface.
 
