@@ -42,6 +42,7 @@ $(function () {
   var humanHighestCard = "";
   var humanStraightFlushHands = [];
   var humanHasRoyalFlush = 0;
+  var humanHighestCardValueInAStraightFlush = 0;
 
   var computerFlushHands = [];
   var computerFullHouseHands = [];
@@ -126,9 +127,9 @@ $(function () {
   //console.log(humanSortedCombinationCardSuits1, humanSortedCombinationCardSuits2, humanSortedCombinationCardSuits3, humanSortedCombinationCardSuits4, humanSortedCombinationCardSuits5, humanSortedCombinationCardSuits6, humanSortedCombinationCardSuits7, humanSortedCombinationCardSuits8, humanSortedCombinationCardSuits9, humanSortedCombinationCardSuits10, humanSortedCombinationCardSuits11, humanSortedCombinationCardSuits12, humanSortedCombinationCardSuits13, humanSortedCombinationCardSuits14, humanSortedCombinationCardSuits15, humanSortedCombinationCardSuits16, humanSortedCombinationCardSuits17, humanSortedCombinationCardSuits18, humanSortedCombinationCardSuits19, humanSortedCombinationCardSuits20, humanSortedCombinationCardSuits21);
 
   //Use these two arrays for testing... they overwrite the arrays above...
-  humanSortedCombinationCardValues1 = [14,13,12,11,10];
-  //  humanSortedCombinationCardValues2 = [5,4,3,2,1];
-  humanSortedCombinationCardSuits1 = [1,1,1,1,1];
+   humanSortedCombinationCardValues1 = [12,11,10,9,8];
+  // humanSortedCombinationCardValues2 = [5,4,3,2,1];
+   humanSortedCombinationCardSuits1 = [1,1,1,1,1];
   // humanSortedCombinationCardSuits2 = [2,2,2,2,2];
 
   //This is a variable containing the arrays of all the sorted card values (above) for all permutations for the human
@@ -334,8 +335,19 @@ $(function () {
   //So what if two players both had the same hand type? We will need to compare a secondary value to determine the winner. We need to look into
   //the values of the hands arrays to find the highest value of whatever and give them a secondary scoring value...
 
-  // FirstCase - both players have
+  // FirstCase - both players have a Straight Flush but one has a higher Straight Flush
+  humanHighestCardInAStaightFlush = function() {
+    for (var i=0;i<humanStraightFlushHands.length;i++) {
+      if (humanStraightFlushHands[i][0] > humanHighestCardValueInAStraightFlush) {
+        humanHighestCardValueInAStraightFlush = humanStraightFlushHands[i][0];
+        console.log('Human has high card value of '+humanHighestCardValueInAStraightFlush+' in a Straight Flush');
+      }
+    }
+  };
+  humanHighestCardInAStaightFlush();
 
+
+  
 
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
