@@ -32,17 +32,23 @@ $(function () {
   var turnCard = cardsSelectedForPlay[7];
   var riverCard = cardsSelectedForPlay[8];
 
-  var humanFlushHands = [];
-  var humanFullHouseHands = [];
+
   var humanFourOfAKindHands = [];
+  var humanStraightFlushHands = [];
+  var humanFullHouseHands = [];
+  var humanFlushHands = [];
   var humanStraightHands = [];
   var humanThreeOfAKindHands = [];
   var humanTwoPairHands = [];
   var humanPairedHands = [];
   var humanHighestCard = "";
-  var humanStraightFlushHands = [];
+
   var humanHasRoyalFlush = 0;
+
   var humanHighestCardValueInAStraightFlush = 0;
+  var humanHighestCardValueInAFourOfAKind = 0;
+  var humanHighestCardValueInAFullHouse = 0;
+  var humanHighestCardValueInThreeOfAKind = 0;
 
   var computerFlushHands = [];
   var computerFullHouseHands = [];
@@ -127,9 +133,9 @@ $(function () {
   //console.log(humanSortedCombinationCardSuits1, humanSortedCombinationCardSuits2, humanSortedCombinationCardSuits3, humanSortedCombinationCardSuits4, humanSortedCombinationCardSuits5, humanSortedCombinationCardSuits6, humanSortedCombinationCardSuits7, humanSortedCombinationCardSuits8, humanSortedCombinationCardSuits9, humanSortedCombinationCardSuits10, humanSortedCombinationCardSuits11, humanSortedCombinationCardSuits12, humanSortedCombinationCardSuits13, humanSortedCombinationCardSuits14, humanSortedCombinationCardSuits15, humanSortedCombinationCardSuits16, humanSortedCombinationCardSuits17, humanSortedCombinationCardSuits18, humanSortedCombinationCardSuits19, humanSortedCombinationCardSuits20, humanSortedCombinationCardSuits21);
 
   //Use these two arrays for testing... they overwrite the arrays above...
-   humanSortedCombinationCardValues1 = [12,11,10,9,8];
+  humanSortedCombinationCardValues1 = [12,12,10,10,10];
   // humanSortedCombinationCardValues2 = [5,4,3,2,1];
-   humanSortedCombinationCardSuits1 = [1,1,1,1,1];
+  // humanSortedCombinationCardSuits1 = [1,1,1,1,1];
   // humanSortedCombinationCardSuits2 = [2,2,2,2,2];
 
   //This is a variable containing the arrays of all the sorted card values (above) for all permutations for the human
@@ -207,18 +213,19 @@ $(function () {
   //FUNCTIONS THAT TAKE THE ARRAYS AND EVALUATE THEM FOR THE MADE HANDS
   //
   //
-  //Function to see if there are Flush arrays when called with the allHumanSortedCombinationCardSuits array. Uses the flushChecker function.
-  var isFlush = function(array) {
+
+  //Function to see if there are Four Of A Kind arrays when called with the allHumanSortedCombinationCardValues array. Uses the fourOfAKindChecker function.
+  var isFourOfAKind = function(array) {
     for (var i=0;i<array.length;i++) {
-      if(flushChecker(array[i])) {
-        humanFlushHands.push(array[i]);
-        console.log(array[i]+' human has a flush');
+      if(fourOfAKindChecker(array[i])) {
+        humanFourOfAKindHands.push(array[i]);
+        // console.log(array[i]+' is a Four Of A Kind');
       }
     }
   };
-  isFlush(allHumanSortedCombinationCardSuits);
-  console.log('Human has '+humanFlushHands.length+' Flush arrays');
-  console.log(humanFlushHands);
+  isFourOfAKind(allHumanSortedCombinationCardValues);
+  console.log('Human has '+humanFourOfAKindHands.length+' Four Of A Kind arrays');
+  console.log(humanFourOfAKindHands);
 
   //Function to see if there are Full House arrays when called with the allHumanSortedCombinationCardValues array. Uses the fullHouseChecker function.
   var isFullHouse = function(array) {
@@ -233,18 +240,18 @@ $(function () {
   console.log('Human has '+humanFullHouseHands.length+' Full House arrays');
   console.log(humanFullHouseHands);
 
-  //Function to see if there are Four Of A Kind arrays when called with the allHumanSortedCombinationCardValues array. Uses the fourOfAKindChecker function.
-  var isFourOfAKind = function(array) {
+  //Function to see if there are Flush arrays when called with the allHumanSortedCombinationCardSuits array. Uses the flushChecker function.
+  var isFlush = function(array) {
     for (var i=0;i<array.length;i++) {
-      if(fourOfAKindChecker(array[i])) {
-        humanFourOfAKindHands.push(array[i]);
-        // console.log(array[i]+' is a Four Of A Kind');
+      if(flushChecker(array[i])) {
+        humanFlushHands.push(array[i]);
+        console.log(array[i]+' human has a flush');
       }
     }
   };
-  isFourOfAKind(allHumanSortedCombinationCardValues);
-  console.log('Human has '+humanFourOfAKindHands.length+' Four Of A Kind arrays');
-  console.log(humanFourOfAKindHands);
+  isFlush(allHumanSortedCombinationCardSuits);
+  console.log('Human has '+humanFlushHands.length+' Flush arrays');
+  console.log(humanFlushHands);
 
   //Function to see if there are Straight arrays when called with the allHumanSortedCombinationCardValues array. Uses the straightChecker function.
   var isStraight = function(array) {
@@ -268,7 +275,6 @@ $(function () {
       }
     }
   };
-
   //And a Royal Flush can therefore be established if any of those humanStraightFlushHands contain an Ace. Can be done seperately.
 
   isStraightFlush(allHumanSortedCombinationCardValues, allHumanSortedCombinationCardSuits);
@@ -320,22 +326,13 @@ $(function () {
   console.log("Human's Highest Card is: "+humanHighestCard);
   // console.log('High Card is 'Math.max(humanCard1));
 
-  //Condition for a Royal Flush
-  doesHumanHaveRoyalFlush = function() {
-    for (var i=0;i<humanStraightFlushHands.length;i++) {
-      if (humanStraightFlushHands[i][0] === 14) {
-        humanHasRoyalFlush = 1;
-      }
-    }
-  };
-  doesHumanHaveRoyalFlush();
-  console.log('Human has '+humanHasRoyalFlush+' Royal Flushes');
+
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //So what if two players both had the same hand type? We will need to compare a secondary value to determine the winner. We need to look into
   //the values of the hands arrays to find the highest value of whatever and give them a secondary scoring value...
 
-  // FirstCase - both players have a Straight Flush but one has a higher Straight Flush
+  // First Case - both players have a Straight Flush but one has a higher Straight Flush
   humanHighestCardInAStaightFlush = function() {
     for (var i=0;i<humanStraightFlushHands.length;i++) {
       if (humanStraightFlushHands[i][0] > humanHighestCardValueInAStraightFlush) {
@@ -346,9 +343,38 @@ $(function () {
   };
   humanHighestCardInAStaightFlush();
 
+  // Second Case - both players have Four Of A Kind but one has a higher Four Of A Kind
+  humanCardValueOfFourOfAKind = function() {
+    for (var i=0;i<humanFourOfAKindHands.length;i++) {
+      if (humanFourOfAKindHands[i][2] > humanHighestCardValueInAFourOfAKind) {
+        humanHighestCardValueInAFourOfAKind = humanFourOfAKindHands[i][2];
+        console.log('Human has high card value of '+humanHighestCardValueInAFourOfAKind+' in Four Of A Kind');
+      }
+    }
+  };
+  humanCardValueOfFourOfAKind();
 
-  
+  //Third Case - both players have a Full house
+  humanCardValueOfFullHouse = function() {
+    for (var i=0;i<humanFullHouseHands.length;i++) {
+      if (humanFullHouseHands[i][2] > humanHighestCardValueInAFullHouse) {
+        humanHighestCardValueInAFullHouse = humanFullHouseHands[i][2];
+        console.log('Human has high card value of '+humanHighestCardValueInAFullHouse+' in a Full House');
+      }
+    }
+  };
+  humanCardValueOfFullHouse();
 
+  //Fourth Case - both players have Three Of A Kind
+  humanCardValueOfThreeOfAKind = function() {
+    for (var i=0;i<humanThreeOfAKindHands.length;i++) {
+      if (humanThreeOfAKindHands[i][2] > humanHighestCardValueInThreeOfAKind) {
+        humanHighestCardValueInThreeOfAKind = humanThreeOfAKindHands[i][2];
+        console.log('Human has high card value of '+humanHighestCardValueInThreeOfAKind+' in Three Of A Kind');
+      }
+    }
+  };
+  humanCardValueOfThreeOfAKind();
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   ////////////////////////Similarly Work out the Computer's Hands////////////////////////////////////////////////////////////////////////////////
