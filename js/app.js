@@ -62,8 +62,17 @@ $(function () {
   var computerTwoPairHands = [];
   var computerPairedHands = [];
   var computerHighestCard = "";
-  var computerStrightFlushHands = [];
+  var computerStraightFlushHands = [];
   var computerHasRoyalFlush = 0;
+
+  var computerHighestCardValueInAStraightFlush = 0;
+  var computerHighestCardValueInAFourOfAKind = 0;
+  var computerHighestCardValueInAFullHouse = 0;
+  var computerHighestCardValueInThreeOfAKind = 0;
+  var computerHighestCardValueInAStraight = 0;
+  var computerHighestCardValueInFirstPairInTwoPair = 0;
+  var computerHighestCardValueInSecondPairInTwoPair = 0;
+  var computerHighestCardValueInPair = 0;
 
   // This logs the full set of cards dealt but isn't required once the UI contains the cards.
   // console.log(deckOfCards[humanCard1].value, deckOfCards[humanCard1].suitName, deckOfCards[humanCard2].value, deckOfCards[humanCard2].suitName, deckOfCards[computerCard1].value, deckOfCards[computerCard1].suitName, deckOfCards[computerCard2].value, deckOfCards[computerCard2].suitName, deckOfCards[flopCard1].value, deckOfCards[flopCard1].suitName, deckOfCards[flopCard2].value, deckOfCards[flopCard2].suitName, deckOfCards[flopCard3].value, deckOfCards[flopCard3].suitName, deckOfCards[turnCard].value, deckOfCards[turnCard].suitName, deckOfCards[riverCard].value, deckOfCards[riverCard].suitName);
@@ -337,7 +346,7 @@ $(function () {
   //the values of the hands arrays to find the highest value of whatever and give them a secondary scoring value...
 
   // First Case - both players have a Straight Flush but one has a higher Straight Flush
-  humanHighestCardOfAStaightFlush = function() {
+  humanHighestCardOfAStraightFlush = function() {
     for (var i=0;i<humanStraightFlushHands.length;i++) {
       if (humanStraightFlushHands[i][0] > humanHighestCardValueInAStraightFlush) {
         humanHighestCardValueInAStraightFlush = humanStraightFlushHands[i][0];
@@ -345,7 +354,7 @@ $(function () {
       }
     }
   };
-  humanHighestCardOfAStaightFlush();
+  humanHighestCardOfAStraightFlush();
 
   // Second Case - both players have Four Of A Kind but one has a higher Four Of A Kind
   humanCardValueOfFourOfAKind = function() {
@@ -369,7 +378,18 @@ $(function () {
   };
   humanCardValueOfFullHouse();
 
-  //Fourth Case - both players have a straight.
+  //Fourth Case - both players have a Flush - needs some thinking... Need to look at the suit value of the flush and then filter all cards within the array humanCard1, humanCard2, flopCard1, flopCard2, flopCard3, turnCard & riverCard and find the highest value. If still a draw then look at the next highest value and so on until a winner.
+  // humanCardValueOfFlush = function() {
+  //   for (var i=0;i<humanFlushHands.length;i++) {
+  //     if (humanFullHouseHands[i][2] > humanHighestCardValueInAFullHouse) {
+  //       humanHighestCardValueInAFullHouse = humanFullHouseHands[i][2];
+  //       console.log('Human has high card value of '+humanHighestCardValueInAFullHouse+' in a Full House');
+  //     }
+  //   }
+  // };
+  // humanCardValueOfFlush();
+
+  //Fifth Case - both players have a straight.
   humanCardValueOfAStraight = function() {
     for (var i=0;i<humanStraightHands.length;i++) {
       if (humanStraightHands[i][0] > humanHighestCardValueInAStraight) {
@@ -380,7 +400,7 @@ $(function () {
   };
   humanCardValueOfAStraight();
 
-  //Fifth Case - both players have Three Of A Kind
+  //Sixth Case - both players have Three Of A Kind
   humanCardValueOfThreeOfAKind = function() {
     for (var i=0;i<humanThreeOfAKindHands.length;i++) {
       if (humanThreeOfAKindHands[i][2] > humanHighestCardValueInThreeOfAKind) {
@@ -391,7 +411,7 @@ $(function () {
   };
   humanCardValueOfThreeOfAKind();
 
-  //Sixth Case - If Both Players Have Two Pair!
+  //Seventh Case - If Both Players Have Two Pair!
   humanCardValueOfFirstPairInTwoPair = function () {
     for (var i=0;i<humanTwoPairHands.length;i++) {
       if (humanTwoPairHands[i][1] > humanHighestCardValueInFirstPairInTwoPair) {
@@ -412,7 +432,7 @@ $(function () {
   };
   humanCardValueOfSecondPairInTwoPair();
 
-  //Seventh Case - If Both Players Have One Pair
+  //Eighth Case - If Both Players Have One Pair
   humanCardValueOfPair = function () {
     for (var i=0;i<humanPairedHands.length;i++) {
       if (humanPairedHands[i][0] === humanPairedHands[i][1]) {
@@ -432,15 +452,316 @@ $(function () {
   };
   humanCardValueOfPair();
 
-  //Eigth Case - If Both Players Have High Card
-  
+  //Ninth Case - If Both Players Have High Card
+  //As for Flush... Need to iterate through the Sorted values of humanCard1, humanCard2, flopCard1, flopCard2, flopCard3, turnCard & riverCard until a winner is declared.
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   ////////////////////////Similarly Work out the Computer's Hands////////////////////////////////////////////////////////////////////////////////
 
+  // A hunman's 'hand' will be determined by finding the highest value of possible hands that s/he could have by looking at a combination of cards from the array and scoring it against criteria for each hand type.
+  // Possible arrays of cards values that we need to consider are sorted by descending value to make their analysis easier:-
+  var computerSortedCombinationCardValues1 = [deckOfCards[computerCard1].value, deckOfCards[computerCard2].value, deckOfCards[flopCard1].value, deckOfCards[flopCard2].value, deckOfCards[flopCard3].value].sort(function(a, b) {return b-a;});
+  var computerSortedCombinationCardValues2 = [deckOfCards[computerCard1].value, deckOfCards[computerCard2].value, deckOfCards[flopCard1].value, deckOfCards[flopCard2].value, deckOfCards[turnCard].value].sort(function(a, b) {return b-a;});
+  var computerSortedCombinationCardValues3 = [deckOfCards[computerCard1].value, deckOfCards[computerCard2].value, deckOfCards[flopCard1].value, deckOfCards[flopCard2].value, deckOfCards[riverCard].value].sort(function(a, b) {return b-a;});
+  var computerSortedCombinationCardValues4 = [deckOfCards[computerCard1].value, deckOfCards[computerCard2].value, deckOfCards[flopCard1].value, deckOfCards[flopCard3].value, deckOfCards[turnCard].value].sort(function(a, b) {return b-a;});
+  var computerSortedCombinationCardValues5 = [deckOfCards[computerCard1].value, deckOfCards[computerCard2].value, deckOfCards[flopCard1].value, deckOfCards[flopCard3].value, deckOfCards[riverCard].value].sort(function(a, b) {return b-a;});
+  var computerSortedCombinationCardValues6 = [deckOfCards[computerCard1].value, deckOfCards[computerCard2].value, deckOfCards[flopCard1].value, deckOfCards[turnCard].value, deckOfCards[riverCard].value].sort(function(a, b) {return b-a;});
+  var computerSortedCombinationCardValues7 = [deckOfCards[computerCard1].value, deckOfCards[computerCard2].value, deckOfCards[flopCard2].value, deckOfCards[flopCard3].value, deckOfCards[turnCard].value].sort(function(a, b) {return b-a;});
+  var computerSortedCombinationCardValues8 = [deckOfCards[computerCard1].value, deckOfCards[computerCard2].value, deckOfCards[flopCard2].value, deckOfCards[flopCard3].value, deckOfCards[riverCard].value].sort(function(a, b) {return b-a;});
+  var computerSortedCombinationCardValues9 = [deckOfCards[computerCard1].value, deckOfCards[computerCard2].value, deckOfCards[flopCard2].value, deckOfCards[turnCard].value, deckOfCards[riverCard].value].sort(function(a, b) {return b-a;});
+  var computerSortedCombinationCardValues10 = [deckOfCards[computerCard1].value, deckOfCards[computerCard2].value, deckOfCards[flopCard3].value, deckOfCards[turnCard].value, deckOfCards[riverCard].value].sort(function(a, b) {return b-a;});
+  var computerSortedCombinationCardValues11 = [deckOfCards[computerCard1].value, deckOfCards[flopCard1].value, deckOfCards[flopCard2].value, deckOfCards[flopCard3].value, deckOfCards[turnCard].value].sort(function(a, b) {return b-a;});
+  var computerSortedCombinationCardValues12 = [deckOfCards[computerCard1].value, deckOfCards[flopCard1].value, deckOfCards[flopCard2].value, deckOfCards[flopCard3].value, deckOfCards[riverCard].value].sort(function(a, b) {return b-a;});
+  var computerSortedCombinationCardValues13 = [deckOfCards[computerCard1].value, deckOfCards[flopCard1].value, deckOfCards[flopCard2].value, deckOfCards[turnCard].value, deckOfCards[riverCard].value].sort(function(a, b) {return b-a;});
+  var computerSortedCombinationCardValues14 = [deckOfCards[computerCard1].value, deckOfCards[flopCard1].value, deckOfCards[flopCard3].value, deckOfCards[turnCard].value, deckOfCards[riverCard].value].sort(function(a, b) {return b-a;});
+  var computerSortedCombinationCardValues15 = [deckOfCards[computerCard1].value, deckOfCards[flopCard2].value, deckOfCards[flopCard3].value, deckOfCards[turnCard].value, deckOfCards[riverCard].value].sort(function(a, b) {return b-a;});
+  var computerSortedCombinationCardValues16 = [deckOfCards[computerCard2].value, deckOfCards[flopCard1].value, deckOfCards[flopCard2].value, deckOfCards[flopCard3].value, deckOfCards[turnCard].value].sort(function(a, b) {return b-a;});
+  var computerSortedCombinationCardValues17 = [deckOfCards[computerCard2].value, deckOfCards[flopCard1].value, deckOfCards[flopCard2].value, deckOfCards[flopCard3].value, deckOfCards[riverCard].value].sort(function(a, b) {return b-a;});
+  var computerSortedCombinationCardValues18 = [deckOfCards[computerCard2].value, deckOfCards[flopCard1].value, deckOfCards[flopCard2].value, deckOfCards[turnCard].value, deckOfCards[riverCard].value].sort(function(a, b) {return b-a;});
+  var computerSortedCombinationCardValues19 = [deckOfCards[computerCard2].value, deckOfCards[flopCard1].value, deckOfCards[flopCard3].value, deckOfCards[turnCard].value, deckOfCards[riverCard].value].sort(function(a, b) {return b-a;});
+  var computerSortedCombinationCardValues20 = [deckOfCards[computerCard2].value, deckOfCards[flopCard2].value, deckOfCards[flopCard3].value, deckOfCards[turnCard].value, deckOfCards[riverCard].value].sort(function(a, b) {return b-a;});
+  var computerSortedCombinationCardValues21 = [deckOfCards[flopCard1].value, deckOfCards[flopCard2].value, deckOfCards[flopCard3].value, deckOfCards[turnCard].value, deckOfCards[riverCard].value].sort(function(a, b) {return b-a;});
+
+  //This is a useful log which shows all the card values in all the combinaiton arrays
+  //console.log(computerSortedCombinationCardValues1, computerSortedCombinationCardValues2, computerSortedCombinationCardValues3, computerSortedCombinationCardValues4, computerSortedCombinationCardValues5, computerSortedCombinationCardValues6, computerSortedCombinationCardValues7, computerSortedCombinationCardValues8, computerSortedCombinationCardValues9, computerSortedCombinationCardValues10, computerSortedCombinationCardValues11, computerSortedCombinationCardValues12, computerSortedCombinationCardValues13, computerSortedCombinationCardValues14, computerSortedCombinationCardValues15, computerSortedCombinationCardValues16, computerSortedCombinationCardValues17, computerSortedCombinationCardValues18, computerSortedCombinationCardValues19, computerSortedCombinationCardValues20, computerSortedCombinationCardValues21);
+
+  // Similarly, we need to know the suited values of the cards so that we can check for a flush, a stright flush and a Royal Flush:-
+  var computerSortedCombinationCardSuits1 = [deckOfCards[computerCard1].suit, deckOfCards[computerCard2].suit, deckOfCards[flopCard1].suit, deckOfCards[flopCard2].suit, deckOfCards[flopCard3].suit].sort(function(a, b) {return b-a;});
+  var computerSortedCombinationCardSuits2 = [deckOfCards[computerCard1].suit, deckOfCards[computerCard2].suit, deckOfCards[flopCard1].suit, deckOfCards[flopCard2].suit, deckOfCards[turnCard].suit].sort(function(a, b) {return b-a;});
+  var computerSortedCombinationCardSuits3 = [deckOfCards[computerCard1].suit, deckOfCards[computerCard2].suit, deckOfCards[flopCard1].suit, deckOfCards[flopCard2].suit, deckOfCards[riverCard].suit].sort(function(a, b) {return b-a;});
+  var computerSortedCombinationCardSuits4 = [deckOfCards[computerCard1].suit, deckOfCards[computerCard2].suit, deckOfCards[flopCard1].suit, deckOfCards[flopCard3].suit, deckOfCards[turnCard].suit].sort(function(a, b) {return b-a;});
+  var computerSortedCombinationCardSuits5 = [deckOfCards[computerCard1].suit, deckOfCards[computerCard2].suit, deckOfCards[flopCard1].suit, deckOfCards[flopCard3].suit, deckOfCards[riverCard].suit].sort(function(a, b) {return b-a;});
+  var computerSortedCombinationCardSuits6 = [deckOfCards[computerCard1].suit, deckOfCards[computerCard2].suit, deckOfCards[flopCard1].suit, deckOfCards[turnCard].suit, deckOfCards[riverCard].suit].sort(function(a, b) {return b-a;});
+  var computerSortedCombinationCardSuits7 = [deckOfCards[computerCard1].suit, deckOfCards[computerCard2].suit, deckOfCards[flopCard2].suit, deckOfCards[flopCard3].suit, deckOfCards[turnCard].suit].sort(function(a, b) {return b-a;});
+  var computerSortedCombinationCardSuits8 = [deckOfCards[computerCard1].suit, deckOfCards[computerCard2].suit, deckOfCards[flopCard2].suit, deckOfCards[flopCard3].suit, deckOfCards[riverCard].suit].sort(function(a, b) {return b-a;});
+  var computerSortedCombinationCardSuits9 = [deckOfCards[computerCard1].suit, deckOfCards[computerCard2].suit, deckOfCards[flopCard2].suit, deckOfCards[turnCard].suit, deckOfCards[riverCard].suit].sort(function(a, b) {return b-a;});
+  var computerSortedCombinationCardSuits10 = [deckOfCards[computerCard1].suit, deckOfCards[computerCard2].suit, deckOfCards[flopCard3].suit, deckOfCards[turnCard].suit, deckOfCards[riverCard].suit].sort(function(a, b) {return b-a;});
+  var computerSortedCombinationCardSuits11 = [deckOfCards[computerCard1].suit, deckOfCards[flopCard1].suit, deckOfCards[flopCard2].suit, deckOfCards[flopCard3].suit, deckOfCards[turnCard].suit].sort(function(a, b) {return b-a;});
+  var computerSortedCombinationCardSuits12 = [deckOfCards[computerCard1].suit, deckOfCards[flopCard1].suit, deckOfCards[flopCard2].suit, deckOfCards[flopCard3].suit, deckOfCards[riverCard].suit].sort(function(a, b) {return b-a;});
+  var computerSortedCombinationCardSuits13 = [deckOfCards[computerCard1].suit, deckOfCards[flopCard1].suit, deckOfCards[flopCard2].suit, deckOfCards[turnCard].suit, deckOfCards[riverCard].suit].sort(function(a, b) {return b-a;});
+  var computerSortedCombinationCardSuits14 = [deckOfCards[computerCard1].suit, deckOfCards[flopCard1].suit, deckOfCards[flopCard3].suit, deckOfCards[turnCard].suit, deckOfCards[riverCard].suit].sort(function(a, b) {return b-a;});
+  var computerSortedCombinationCardSuits15 = [deckOfCards[computerCard1].suit, deckOfCards[flopCard2].suit, deckOfCards[flopCard3].suit, deckOfCards[turnCard].suit, deckOfCards[riverCard].suit].sort(function(a, b) {return b-a;});
+  var computerSortedCombinationCardSuits16 = [deckOfCards[computerCard2].suit, deckOfCards[flopCard1].suit, deckOfCards[flopCard2].suit, deckOfCards[flopCard3].suit, deckOfCards[turnCard].suit].sort(function(a, b) {return b-a;});
+  var computerSortedCombinationCardSuits17 = [deckOfCards[computerCard2].suit, deckOfCards[flopCard1].suit, deckOfCards[flopCard2].suit, deckOfCards[flopCard3].suit, deckOfCards[riverCard].suit].sort(function(a, b) {return b-a;});
+  var computerSortedCombinationCardSuits18 = [deckOfCards[computerCard2].suit, deckOfCards[flopCard1].suit, deckOfCards[flopCard2].suit, deckOfCards[turnCard].suit, deckOfCards[riverCard].suit].sort(function(a, b) {return b-a;});
+  var computerSortedCombinationCardSuits19 = [deckOfCards[computerCard2].suit, deckOfCards[flopCard1].suit, deckOfCards[flopCard3].suit, deckOfCards[turnCard].suit, deckOfCards[riverCard].suit].sort(function(a, b) {return b-a;});
+  var computerSortedCombinationCardSuits20 = [deckOfCards[computerCard2].suit, deckOfCards[flopCard2].suit, deckOfCards[flopCard3].suit, deckOfCards[turnCard].suit, deckOfCards[riverCard].suit].sort(function(a, b) {return b-a;});
+  var computerSortedCombinationCardSuits21 = [deckOfCards[flopCard1].suit, deckOfCards[flopCard2].suit, deckOfCards[flopCard3].suit, deckOfCards[turnCard].suit, deckOfCards[riverCard].suit].sort(function(a, b) {return b-a;});
+
+  //This is a useful log which shows all the card suits in all the computer combinaiton arrays
+  //console.log(computerSortedCombinationCardSuits1, computerSortedCombinationCardSuits2, computerSortedCombinationCardSuits3, computerSortedCombinationCardSuits4, computerSortedCombinationCardSuits5, computerSortedCombinationCardSuits6, computerSortedCombinationCardSuits7, computerSortedCombinationCardSuits8, computerSortedCombinationCardSuits9, computerSortedCombinationCardSuits10, computerSortedCombinationCardSuits11, computerSortedCombinationCardSuits12, computerSortedCombinationCardSuits13, computerSortedCombinationCardSuits14, computerSortedCombinationCardSuits15, computerSortedCombinationCardSuits16, computerSortedCombinationCardSuits17, computerSortedCombinationCardSuits18, computerSortedCombinationCardSuits19, computerSortedCombinationCardSuits20, computerSortedCombinationCardSuits21);
+
+  //Use these two arrays for testing... they overwrite the arrays above...
+  // computerSortedCombinationCardValues1 = [12,11,10,9,8];
+  // computerSortedCombinationCardValues2 = [5,4,3,2,1];
+  // computerSortedCombinationCardSuits1 = [1,1,1,1,1];
+  // computerSortedCombinationCardSuits2 = [2,2,2,2,2];
+
+  //This is a variable containing the arrays of all the sorted card values (above) for all permutations for the computer
+  var allComputerSortedCombinationCardValues = [computerSortedCombinationCardValues1, computerSortedCombinationCardValues2, computerSortedCombinationCardValues3, computerSortedCombinationCardValues4, computerSortedCombinationCardValues5, computerSortedCombinationCardValues6, computerSortedCombinationCardValues7, computerSortedCombinationCardValues8, computerSortedCombinationCardValues9, computerSortedCombinationCardValues10, computerSortedCombinationCardValues11, computerSortedCombinationCardValues12, computerSortedCombinationCardValues13, computerSortedCombinationCardValues14, computerSortedCombinationCardValues15, computerSortedCombinationCardValues16, computerSortedCombinationCardValues17, computerSortedCombinationCardValues18, computerSortedCombinationCardValues19, computerSortedCombinationCardValues20, computerSortedCombinationCardValues21];
+
+  //This is a variable containing the arrays of all the sorted suit values (above) for all permutations for the computer
+  var allComputerSortedCombinationCardSuits = [computerSortedCombinationCardSuits1, computerSortedCombinationCardSuits2, computerSortedCombinationCardSuits3, computerSortedCombinationCardSuits4, computerSortedCombinationCardSuits5, computerSortedCombinationCardSuits6, computerSortedCombinationCardSuits7, computerSortedCombinationCardSuits8, computerSortedCombinationCardSuits9, computerSortedCombinationCardSuits10, computerSortedCombinationCardSuits11, computerSortedCombinationCardSuits12, computerSortedCombinationCardSuits13, computerSortedCombinationCardSuits14, computerSortedCombinationCardSuits15, computerSortedCombinationCardSuits16, computerSortedCombinationCardSuits17, computerSortedCombinationCardSuits18, computerSortedCombinationCardSuits19, computerSortedCombinationCardSuits20, computerSortedCombinationCardSuits21];
 
 
 
+  //highCardChecker. Checks for the highest value card in the array of all cards. Uses the cardsSelected outcome.
+  var computerHighCardChecker = function() {
+    computerHighestCard = Math.max(deckOfCards[computerCard1].value, deckOfCards[computerCard2].value, deckOfCards[flopCard1].value, deckOfCards[flopCard2].value, deckOfCards[flopCard3].value, deckOfCards[turnCard].value, deckOfCards[riverCard].value);
+  };
+
+  //FUNCTIONS THAT TAKE THE ARRAYS AND EVALUATE THEM FOR THE MADE HANDS
+  //
+  //
+
+  //Function to see if there are Four Of A Kind arrays when called with the allComputerSortedCombinationCardValues array. Uses the fourOfAKindChecker function.
+  var isFourOfAKindComputer = function(array) {
+    for (var i=0;i<array.length;i++) {
+      if(fourOfAKindChecker(array[i])) {
+        computerFourOfAKindHands.push(array[i]);
+        // console.log(array[i]+' is a Four Of A Kind');
+      }
+    }
+  };
+  isFourOfAKindComputer(allComputerSortedCombinationCardValues);
+  console.log('Computer has '+computerFourOfAKindHands.length+' Four Of A Kind arrays');
+  console.log(computerFourOfAKindHands);
+
+  //Function to see if there are Full House arrays when called with the allComputerSortedCombinationCardValues array. Uses the fullHouseChecker function.
+  var isFullHouseComputer = function(array) {
+    for (var i=0;i<array.length;i++) {
+      if(fullHouseChecker(array[i])) {
+        computerFullHouseHands.push(array[i]);
+        // console.log(array[i]+' is a Full House');
+      }
+    }
+  };
+  isFullHouseComputer(allComputerSortedCombinationCardValues);
+  console.log('Computer has '+computerFullHouseHands.length+' Full House arrays');
+  console.log(computerFullHouseHands);
+
+  //Function to see if there are Flush arrays when called with the allComputerSortedCombinationCardSuits array. Uses the flushChecker function.
+  var isFlushComputer = function(array) {
+    for (var i=0;i<array.length;i++) {
+      if(flushChecker(array[i])) {
+        computerFlushHands.push(array[i]);
+        console.log(array[i]+' computer has a flush');
+      }
+    }
+  };
+  isFlushComputer(allComputerSortedCombinationCardSuits);
+  console.log('Computer has '+computerFlushHands.length+' Flush arrays');
+  console.log(computerFlushHands);
+
+  //Function to see if there are Straight arrays when called with the allComputerSortedCombinationCardValues array. Uses the straightChecker function.
+  var isStraightComputer = function(array) {
+    for (var i=0;i<array.length;i++) {
+      if(straightChecker(array[i])) {
+        computerStraightHands.push(array[i]);
+        // console.log(array[i]+' is a Four Of A Kind');
+      }
+    }
+  };
+  isStraightComputer(allComputerSortedCombinationCardValues);
+  console.log('Computer has '+computerStraightHands.length+' Straight arrays');
+  console.log(computerStraightHands);
+
+  //Function to see if there are Striaght Flush arrays when called with BOTH allComputerSortedCombinationCardValues and allComputerSortedCombinationCardSuits
+  var isStraightFlushComputer = function(array1, array2) {
+    for (var i=0;i<array1.length;i++) {
+      if(straightFlushChecker(array1[i], array2[i])) {
+        computerStraightFlushHands.push(array1[i], array2[i]);
+        // console.log(array[i]+' is a Four Of A Kind');
+      }
+    }
+  };
+  //And a Royal Flush can therefore be established if any of those computerStraightFlushHands contain an Ace. Can be done seperately.
+
+  isStraightFlushComputer(allComputerSortedCombinationCardValues, allComputerSortedCombinationCardSuits);
+  console.log('Computer has '+computerStraightFlushHands.length+' Straight Flush arrays');
+  console.log(computerStraightFlushHands);
+
+
+  //Function to see if there are Three Of A Kind arrays when called with the allComputerSortedCombinationCardValues array. Uses the threeOfAKindChecker function.
+  var isThreeOfAKindComputer = function(array) {
+    for (var i=0;i<array.length;i++) {
+      if(threeOfAKindChecker(array[i])) {
+        computerThreeOfAKindHands.push(array[i]);
+        // console.log(array[i]+' is a Three Of A Kind');
+      }
+    }
+  };
+  isThreeOfAKindComputer(allComputerSortedCombinationCardValues);
+  console.log('Computer has '+computerThreeOfAKindHands.length+' Three Of A Kind arrays');
+  console.log(computerThreeOfAKindHands);
+
+  //Function to see if there are Two Pairs in an array when called with the allComputerSortedCombinationCardValues array. Uses the twoPairChecker function.
+  var istwoPairComputer = function(array) {
+    for (var i=0;i<array.length;i++) {
+      if(twoPairChecker(array[i])) {
+        computerTwoPairHands.push(array[i]);
+        // console.log(array[i]+' is Two Pairs');
+      }
+    }
+  };
+  istwoPairComputer(allComputerSortedCombinationCardValues);
+  console.log('Computer has '+computerTwoPairHands.length+' Two Pair arrays');
+  console.log(computerTwoPairHands);
+
+  //Function to see if there is a Pair in an array when called with the allComputerSortedCombinationCardValues array. Uses the pairChecker function.
+  var isPairComputer = function(array) {
+    for (var i=0;i<array.length;i++) {
+      if(pairChecker(array[i])) {
+        computerPairedHands.push(array[i]);
+        // console.log(array[i]+' is Two Pairs');
+      }
+    }
+  };
+  isPairComputer(allComputerSortedCombinationCardValues);
+  console.log('Computer has '+computerPairedHands.length+' Paired arrays');
+  console.log(computerPairedHands);
+
+  //Function to see what the highest card is within an array. Called with the allComputerSortedCombinationCardValues array. Uses the highCardChecker function
+  computerHighCardChecker();
+  console.log("Computer's Highest Card is: "+computerHighestCard);
+  // console.log('High Card is 'Math.max(computerCard1));
+
+
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //So what if two players both had the same hand type? We will need to compare a secondary value to determine the winner. We need to look into
+  //the values of the hands arrays to find the highest value of whatever and give them a secondary scoring value...
+
+  // First Case - both players have a Straight Flush but one has a higher Straight Flush
+  computerHighestCardOfAStraightFlush = function() {
+    for (var i=0;i<computerStraightFlushHands.length;i++) {
+      if (computerStraightFlushHands[i][0] > computerHighestCardValueInAStraightFlush) {
+        computerHighestCardValueInAStraightFlush = computerStraightFlushHands[i][0];
+        console.log('Computer has high card value of '+computerHighestCardValueInAStraightFlush+' in a Straight Flush');
+      }
+    }
+  };
+  computerHighestCardOfAStraightFlush();
+
+  // Second Case - both players have Four Of A Kind but one has a higher Four Of A Kind
+  computerCardValueOfFourOfAKind = function() {
+    for (var i=0;i<computerFourOfAKindHands.length;i++) {
+      if (computerFourOfAKindHands[i][2] > computerHighestCardValueInAFourOfAKind) {
+        computerHighestCardValueInAFourOfAKind = computerFourOfAKindHands[i][2];
+        console.log('Computer has high card value of '+computerHighestCardValueInAFourOfAKind+' in Four Of A Kind');
+      }
+    }
+  };
+  computerCardValueOfFourOfAKind();
+
+  //Third Case - both players have a Full house
+  computerCardValueOfFullHouse = function() {
+    for (var i=0;i<computerFullHouseHands.length;i++) {
+      if (computerFullHouseHands[i][2] > computerHighestCardValueInAFullHouse) {
+        computerHighestCardValueInAFullHouse = computerFullHouseHands[i][2];
+        console.log('Computer has high card value of '+computerHighestCardValueInAFullHouse+' in a Full House');
+      }
+    }
+  };
+  computerCardValueOfFullHouse();
+
+  //Fourth Case - both players have a Flush - needs some thinking... Need to look at the suit value of the flush and then filter all cards within the array computerCard1, computerCard2, flopCard1, flopCard2, flopCard3, turnCard & riverCard and find the highest value. If still a draw then look at the next highest value and so on until a winner.
+  // computerCardValueOfFlush = function() {
+  //   for (var i=0;i<computerFlushHands.length;i++) {
+  //     if (computerFullHouseHands[i][2] > computerHighestCardValueInAFullHouse) {
+  //       computerHighestCardValueInAFullHouse = computerFullHouseHands[i][2];
+  //       console.log('Computer has high card value of '+computerHighestCardValueInAFullHouse+' in a Full House');
+  //     }
+  //   }
+  // };
+  // computerCardValueOfFlush();
+
+  //Fifth Case - both players have a straight.
+  computerCardValueOfAStraight = function() {
+    for (var i=0;i<computerStraightHands.length;i++) {
+      if (computerStraightHands[i][0] > computerHighestCardValueInAStraight) {
+        computerHighestCardValueInAStraight = computerStraightHands[i][0];
+        console.log('Computer has high card value of '+computerHighestCardValueInAStraight+' in a Straight');
+      }
+    }
+  };
+  computerCardValueOfAStraight();
+
+  //Sixth Case - both players have Three Of A Kind
+  computerCardValueOfThreeOfAKind = function() {
+    for (var i=0;i<computerThreeOfAKindHands.length;i++) {
+      if (computerThreeOfAKindHands[i][2] > computerHighestCardValueInThreeOfAKind) {
+        computerHighestCardValueInThreeOfAKind = computerThreeOfAKindHands[i][2];
+        console.log('Computer has high card value of '+computerHighestCardValueInThreeOfAKind+' in Three Of A Kind');
+      }
+    }
+  };
+  computerCardValueOfThreeOfAKind();
+
+  //Seventh Case - If Both Players Have Two Pair!
+  computerCardValueOfFirstPairInTwoPair = function () {
+    for (var i=0;i<computerTwoPairHands.length;i++) {
+      if (computerTwoPairHands[i][1] > computerHighestCardValueInFirstPairInTwoPair) {
+        computerHighestCardValueInFirstPairInTwoPair = computerTwoPairHands[i][1];
+        console.log('Computer has first pair value of '+computerHighestCardValueInFirstPairInTwoPair+' in Two Pairs');
+      }
+    }
+  };
+  computerCardValueOfFirstPairInTwoPair();
+
+  computerCardValueOfSecondPairInTwoPair = function () {
+    for (var i=0;i<computerTwoPairHands.length;i++) {
+      if (computerTwoPairHands[i][3] > computerHighestCardValueInSecondPairInTwoPair) {
+        computerHighestCardValueInSecondPairInTwoPair = computerTwoPairHands[i][3];
+        console.log('Computer has second pair value of '+computerHighestCardValueInSecondPairInTwoPair+' in Two Pairs');
+      }
+    }
+  };
+  computerCardValueOfSecondPairInTwoPair();
+
+  //Eighth Case - If Both Players Have One Pair
+  computerCardValueOfPair = function () {
+    for (var i=0;i<computerPairedHands.length;i++) {
+      if (computerPairedHands[i][0] === computerPairedHands[i][1]) {
+        computerHighestCardValueInPair = computerPairedHands[i][0];
+        console.log('Computer has pair value of '+computerHighestCardValueInPair+' in a Pair');
+      } else if (computerPairedHands[i][1] === computerPairedHands[i][2]) {
+        computerHighestCardValueInPair = computerPairedHands[i][1];
+        console.log('Computer has pair value of '+computerHighestCardValueInPair+' in a Pair');
+      } else if (computerPairedHands[i][2] === computerPairedHands[i][3]) {
+        computerHighestCardValueInPair = computerPairedHands[i][2];
+        console.log('Computer has pair value of '+computerHighestCardValueInPair+' in a Pair');
+      } else if (computerPairedHands[i][3] === computerPairedHands[i][4]) {
+        computerHighestCardValueInPair = computerPairedHands[i][3];
+        console.log('Computer has pair value of '+computerHighestCardValueInPair+' in a Pair');
+      }
+    }
+  };
+  computerCardValueOfPair();
+
+  // whoHasWon = function () {
+  //   if
+  // }
 
 
 
