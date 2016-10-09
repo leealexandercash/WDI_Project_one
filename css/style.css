@@ -62,7 +62,7 @@ border-radius: 30px;
     border-top: 100px;
 
 }
-.userArea {
+.humanArea {
   display: block;
   height: 20%;
   background-color: rgba(0, 255, 0, 0);
@@ -99,19 +99,19 @@ border-radius: 30px;
   background-color: white;
 }
 
-.userCards {
+.humanCards {
   width: 220px;
   height: 150px;
   margin: auto;
 }
-#userCardOne {
+#humanCardOne {
   display: inline-block;
   width: 96px;
   height: 140px;
   background-color: white;
 
 }
-#userCardTwo {
+#humanCardTwo {
   float: right;
   display: inline-block;
   width: 96px;
