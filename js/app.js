@@ -48,9 +48,9 @@ $(function () {
 
   // This format is used for the card images - deckOfCards[playerCard1].image
   //Update the UI with the all the cards in view initially so that we can test more easily whilst developing the game
-  $('#userCardOne').prepend('<img height=100% src="images/'+deckOfCards[playerCard1].image+'" />');
-  $('#userCardTwo').prepend('<img height=100% src="images/'+deckOfCards[playerCard2].image+'" />');
-  $('#computerCardOne').prepend('<img height=100% src="images/'+deckOfCards[computerCard1].image+'" />');
+  $('#userCardOne').append('<img height=100% src="images/'+deckOfCards[playerCard1].image+'" />');
+  $('#userCardTwo').append('<img height=100% src="images/'+deckOfCards[playerCard2].image+'" />');
+  $('#computerCardOne').append('<img height=100% src="images/'+deckOfCards[computerCard1].image+'" />');
   $('#computerCardTwo').append('<img height=100% src="images/'+deckOfCards[computerCard2].image+'" />');
   $('#flopCard1').append('<img height=100px src="images/'+deckOfCards[flopCard1].image+'" />');
   $('#flopCard2').append('<img height=100px src="images/'+deckOfCards[flopCard2].image+'" />');
@@ -190,7 +190,7 @@ $(function () {
     }
   };
   isFlush(allSortedCombinationCardSuits);
-  console.log('There are '+flushHands.length+' Flush arrays');
+  console.log('There are '+flushHands.length+' lush arrays');
   console.log(flushHands);
 
   //Function to see if there are Full House arrays when called with the allSortedCombinationCardValues array. Uses the fullHouseChecker function.
@@ -275,5 +275,4 @@ $(function () {
   highCardChecker();
   console.log('Highest Card is: '+highestCard);
   // console.log('High Card is 'Math.max(playerCard1));
-
 });
