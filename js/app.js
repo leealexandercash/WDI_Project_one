@@ -974,7 +974,7 @@ $(function () {
       } else if (computerHighestCardValueInPair !==0) {
         computerHandScore = 1000 + 100*computerHighestCard;
       } else if (computerHighestCard !==0) {
-        computerHandScore = 100*computerSortedCardsArray[0]+50*computerSortedCardsArray[1]+20*computerSortedCardsArray[2]+10*computerSortedCardsArray[3]+computerSortedCardsArray[4];
+        computerHandScore = 100*computerHighestCard;
       }
     };
     computerHandValueCalculator();
