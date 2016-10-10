@@ -18,9 +18,12 @@ $(function () {
     }
   };
 
+  //Use this to test card values
+  cardsSelectedForPlay = [0,2,34,37,5,6,7,8,9];
+
   // deal the cards to be used in the hand
   dealCards();
-  //console.log(cardsSelectedForPlay);
+  console.log(cardsSelectedForPlay);
 
   var humanCard1 = cardsSelectedForPlay[0];
   var humanCard2 = cardsSelectedForPlay[1];
@@ -32,7 +35,6 @@ $(function () {
   var turnCard = cardsSelectedForPlay[7];
   var riverCard = cardsSelectedForPlay[8];
 
-
   var humanFourOfAKindHands = [];
   var humanStraightFlushHands = [];
   var humanFullHouseHands = [];
@@ -42,9 +44,9 @@ $(function () {
   var humanTwoPairHands = [];
   var humanPairedHands = [];
   var humanHighestCard = "";
-
   var humanHasRoyalFlush = 0;
 
+  //Sub-Hand Value Criteria Variables
   var humanHighestCardValueInAStraightFlush = 0;
   var humanHighestCardValueInAFourOfAKind = 0;
   var humanHighestCardValueInAFullHouse = 0;
@@ -53,6 +55,7 @@ $(function () {
   var humanHighestCardValueInFirstPairInTwoPair = 0;
   var humanHighestCardValueInSecondPairInTwoPair = 0;
   var humanHighestCardValueInPair = 0;
+  var humanFlushCardValues = [];
 
   var computerFlushHands = [];
   var computerFullHouseHands = [];
@@ -65,6 +68,7 @@ $(function () {
   var computerStraightFlushHands = [];
   var computerHasRoyalFlush = 0;
 
+  //Sub-Hand Value Criteria Variables
   var computerHighestCardValueInAStraightFlush = 0;
   var computerHighestCardValueInAFourOfAKind = 0;
   var computerHighestCardValueInAFullHouse = 0;
@@ -73,6 +77,9 @@ $(function () {
   var computerHighestCardValueInFirstPairInTwoPair = 0;
   var computerHighestCardValueInSecondPairInTwoPair = 0;
   var computerHighestCardValueInPair = 0;
+
+  var humanHandScore = 0;
+  var computerHandScore = 0;
 
   // This logs the full set of cards dealt but isn't required once the UI contains the cards.
   // console.log(deckOfCards[humanCard1].value, deckOfCards[humanCard1].suitName, deckOfCards[humanCard2].value, deckOfCards[humanCard2].suitName, deckOfCards[computerCard1].value, deckOfCards[computerCard1].suitName, deckOfCards[computerCard2].value, deckOfCards[computerCard2].suitName, deckOfCards[flopCard1].value, deckOfCards[flopCard1].suitName, deckOfCards[flopCard2].value, deckOfCards[flopCard2].suitName, deckOfCards[flopCard3].value, deckOfCards[flopCard3].suitName, deckOfCards[turnCard].value, deckOfCards[turnCard].suitName, deckOfCards[riverCard].value, deckOfCards[riverCard].suitName);
@@ -146,10 +153,10 @@ $(function () {
   //console.log(humanSortedCombinationCardSuits1, humanSortedCombinationCardSuits2, humanSortedCombinationCardSuits3, humanSortedCombinationCardSuits4, humanSortedCombinationCardSuits5, humanSortedCombinationCardSuits6, humanSortedCombinationCardSuits7, humanSortedCombinationCardSuits8, humanSortedCombinationCardSuits9, humanSortedCombinationCardSuits10, humanSortedCombinationCardSuits11, humanSortedCombinationCardSuits12, humanSortedCombinationCardSuits13, humanSortedCombinationCardSuits14, humanSortedCombinationCardSuits15, humanSortedCombinationCardSuits16, humanSortedCombinationCardSuits17, humanSortedCombinationCardSuits18, humanSortedCombinationCardSuits19, humanSortedCombinationCardSuits20, humanSortedCombinationCardSuits21);
 
   //Use these two arrays for testing... they overwrite the arrays above...
-  // humanSortedCombinationCardValues1 = [12,11,10,9,8];
-  // humanSortedCombinationCardValues2 = [5,4,3,2,1];
+  // humanSortedCombinationCardValues1 = [13,13,13,13,9];
+  // humanSortedCombinationCardValues2 = [4,4,4,2,2];
   // humanSortedCombinationCardSuits1 = [1,1,1,1,1];
-  // humanSortedCombinationCardSuits2 = [2,2,2,2,2];
+  //humanSortedCombinationCardSuits2 = [2,2,2,2,2];
 
   //This is a variable containing the arrays of all the sorted card values (above) for all permutations for the human
   var allHumanSortedCombinationCardValues = [humanSortedCombinationCardValues1, humanSortedCombinationCardValues2, humanSortedCombinationCardValues3, humanSortedCombinationCardValues4, humanSortedCombinationCardValues5, humanSortedCombinationCardValues6, humanSortedCombinationCardValues7, humanSortedCombinationCardValues8, humanSortedCombinationCardValues9, humanSortedCombinationCardValues10, humanSortedCombinationCardValues11, humanSortedCombinationCardValues12, humanSortedCombinationCardValues13, humanSortedCombinationCardValues14, humanSortedCombinationCardValues15, humanSortedCombinationCardValues16, humanSortedCombinationCardValues17, humanSortedCombinationCardValues18, humanSortedCombinationCardValues19, humanSortedCombinationCardValues20, humanSortedCombinationCardValues21];
@@ -228,7 +235,7 @@ $(function () {
   //
 
   //Function to see if there are Four Of A Kind arrays when called with the allHumanSortedCombinationCardValues array. Uses the fourOfAKindChecker function.
-  var isFourOfAKind = function(array) {
+  var isFourOfAKindHuman = function(array) {
     for (var i=0;i<array.length;i++) {
       if(fourOfAKindChecker(array[i])) {
         humanFourOfAKindHands.push(array[i]);
@@ -236,12 +243,12 @@ $(function () {
       }
     }
   };
-  isFourOfAKind(allHumanSortedCombinationCardValues);
+  isFourOfAKindHuman(allHumanSortedCombinationCardValues);
   console.log('Human has '+humanFourOfAKindHands.length+' Four Of A Kind arrays');
   console.log(humanFourOfAKindHands);
 
   //Function to see if there are Full House arrays when called with the allHumanSortedCombinationCardValues array. Uses the fullHouseChecker function.
-  var isFullHouse = function(array) {
+  var isFullHouseHuman = function(array) {
     for (var i=0;i<array.length;i++) {
       if(fullHouseChecker(array[i])) {
         humanFullHouseHands.push(array[i]);
@@ -249,12 +256,12 @@ $(function () {
       }
     }
   };
-  isFullHouse(allHumanSortedCombinationCardValues);
+  isFullHouseHuman(allHumanSortedCombinationCardValues);
   console.log('Human has '+humanFullHouseHands.length+' Full House arrays');
   console.log(humanFullHouseHands);
 
   //Function to see if there are Flush arrays when called with the allHumanSortedCombinationCardSuits array. Uses the flushChecker function.
-  var isFlush = function(array) {
+  var isFlushHuman = function(array) {
     for (var i=0;i<array.length;i++) {
       if(flushChecker(array[i])) {
         humanFlushHands.push(array[i]);
@@ -262,12 +269,12 @@ $(function () {
       }
     }
   };
-  isFlush(allHumanSortedCombinationCardSuits);
+  isFlushHuman(allHumanSortedCombinationCardSuits);
   console.log('Human has '+humanFlushHands.length+' Flush arrays');
   console.log(humanFlushHands);
 
   //Function to see if there are Straight arrays when called with the allHumanSortedCombinationCardValues array. Uses the straightChecker function.
-  var isStraight = function(array) {
+  var isStraightHuman = function(array) {
     for (var i=0;i<array.length;i++) {
       if(straightChecker(array[i])) {
         humanStraightHands.push(array[i]);
@@ -275,12 +282,12 @@ $(function () {
       }
     }
   };
-  isStraight(allHumanSortedCombinationCardValues);
+  isStraightHuman(allHumanSortedCombinationCardValues);
   console.log('Human has '+humanStraightHands.length+' Straight arrays');
   console.log(humanStraightHands);
 
   //Function to see if there are Striaght Flush arrays when called with BOTH allHumanSortedCombinationCardValues and allHumanSortedCombinationCardSuits
-  var isStraightFlush = function(array1, array2) {
+  var isStraightFlushHuman = function(array1, array2) {
     for (var i=0;i<array1.length;i++) {
       if(straightFlushChecker(array1[i], array2[i])) {
         humanStraightFlushHands.push(array1[i], array2[i]);
@@ -290,13 +297,13 @@ $(function () {
   };
   //And a Royal Flush can therefore be established if any of those humanStraightFlushHands contain an Ace. Can be done seperately.
 
-  isStraightFlush(allHumanSortedCombinationCardValues, allHumanSortedCombinationCardSuits);
+  isStraightFlushHuman(allHumanSortedCombinationCardValues, allHumanSortedCombinationCardSuits);
   console.log('Human has '+humanStraightFlushHands.length+' Straight Flush arrays');
   console.log(humanStraightFlushHands);
 
 
   //Function to see if there are Three Of A Kind arrays when called with the allHumanSortedCombinationCardValues array. Uses the threeOfAKindChecker function.
-  var isThreeOfAKind = function(array) {
+  var isThreeOfAKindHuman = function(array) {
     for (var i=0;i<array.length;i++) {
       if(threeOfAKindChecker(array[i])) {
         humanThreeOfAKindHands.push(array[i]);
@@ -304,12 +311,12 @@ $(function () {
       }
     }
   };
-  isThreeOfAKind(allHumanSortedCombinationCardValues);
+  isThreeOfAKindHuman(allHumanSortedCombinationCardValues);
   console.log('Human has '+humanThreeOfAKindHands.length+' Three Of A Kind arrays');
   console.log(humanThreeOfAKindHands);
 
   //Function to see if there are Two Pairs in an array when called with the allHumanSortedCombinationCardValues array. Uses the twoPairChecker function.
-  var istwoPair = function(array) {
+  var istwoPairHuman = function(array) {
     for (var i=0;i<array.length;i++) {
       if(twoPairChecker(array[i])) {
         humanTwoPairHands.push(array[i]);
@@ -317,12 +324,12 @@ $(function () {
       }
     }
   };
-  istwoPair(allHumanSortedCombinationCardValues);
+  istwoPairHuman(allHumanSortedCombinationCardValues);
   console.log('Human has '+humanTwoPairHands.length+' Two Pair arrays');
   console.log(humanTwoPairHands);
 
   //Function to see if there is a Pair in an array when called with the allHumanSortedCombinationCardValues array. Uses the pairChecker function.
-  var isPair = function(array) {
+  var isPairHuman = function(array) {
     for (var i=0;i<array.length;i++) {
       if(pairChecker(array[i])) {
         humanPairedHands.push(array[i]);
@@ -330,7 +337,7 @@ $(function () {
       }
     }
   };
-  isPair(allHumanSortedCombinationCardValues);
+  isPairHuman(allHumanSortedCombinationCardValues);
   console.log('Human has '+humanPairedHands.length+' Paired arrays');
   console.log(humanPairedHands);
 
@@ -379,15 +386,37 @@ $(function () {
   humanCardValueOfFullHouse();
 
   //Fourth Case - both players have a Flush - needs some thinking... Need to look at the suit value of the flush and then filter all cards within the array humanCard1, humanCard2, flopCard1, flopCard2, flopCard3, turnCard & riverCard and find the highest value. If still a draw then look at the next highest value and so on until a winner.
-  // humanCardValueOfFlush = function() {
-  //   for (var i=0;i<humanFlushHands.length;i++) {
-  //     if (humanFullHouseHands[i][2] > humanHighestCardValueInAFullHouse) {
-  //       humanHighestCardValueInAFullHouse = humanFullHouseHands[i][2];
-  //       console.log('Human has high card value of '+humanHighestCardValueInAFullHouse+' in a Full House');
-  //     }
-  //   }
-  // };
-  // humanCardValueOfFlush();
+  humanHighCardValueInAFlush = function () {
+    if (humanFlushHands.length > 0) {
+      var valueOfSuitInFlush = humanFlushHands[0][0];
+      console.log('Value of Suit In Flush is '+valueOfSuitInFlush);
+      if (deckOfCards[humanCard1].suit === valueOfSuitInFlush) {
+        humanFlushCardValues.push(deckOfCards[humanCard1].value);
+      }
+      if (deckOfCards[humanCard2].suit === valueOfSuitInFlush) {
+        humanFlushCardValues.push(deckOfCards[humanCard2].value);
+      }
+      if (deckOfCards[flopCard1].suit === valueOfSuitInFlush) {
+        humanFlushCardValues.push(deckOfCards[flopCard1].value);
+      }
+      if (deckOfCards[flopCard2].suit === valueOfSuitInFlush) {
+        humanFlushCardValues.push(deckOfCards[flopCard2].value);
+      }
+      if (deckOfCards[flopCard3].suit === valueOfSuitInFlush) {
+        humanFlushCardValues.push(deckOfCards[flopCard3].value);
+      }
+      if (deckOfCards[turnCard].suit === valueOfSuitInFlush) {
+        humanFlushCardValues.push(deckOfCards[turnCard].value);
+      }
+      if (deckOfCards[riverCard].suit === valueOfSuitInFlush) {
+        humanFlushCardValues.push(deckOfCards[riverCard].value);
+      }
+      humanFlushCardValues.sort(function(a, b) {return b-a;});
+      console.log(humanFlushCardValues);
+      console.log('Human has a Flush. '+humanFlushCardValues[0]+' high');
+    }
+  };
+  humanHighCardValueInAFlush();
 
   //Fifth Case - both players have a straight.
   humanCardValueOfAStraight = function() {
@@ -515,7 +544,7 @@ $(function () {
   // computerSortedCombinationCardValues1 = [12,11,10,9,8];
   // computerSortedCombinationCardValues2 = [5,4,3,2,1];
   // computerSortedCombinationCardSuits1 = [1,1,1,1,1];
-  // computerSortedCombinationCardSuits2 = [2,2,2,2,2];
+  //computerSortedCombinationCardSuits2 = [2,2,2,2,2];
 
   //This is a variable containing the arrays of all the sorted card values (above) for all permutations for the computer
   var allComputerSortedCombinationCardValues = [computerSortedCombinationCardValues1, computerSortedCombinationCardValues2, computerSortedCombinationCardValues3, computerSortedCombinationCardValues4, computerSortedCombinationCardValues5, computerSortedCombinationCardValues6, computerSortedCombinationCardValues7, computerSortedCombinationCardValues8, computerSortedCombinationCardValues9, computerSortedCombinationCardValues10, computerSortedCombinationCardValues11, computerSortedCombinationCardValues12, computerSortedCombinationCardValues13, computerSortedCombinationCardValues14, computerSortedCombinationCardValues15, computerSortedCombinationCardValues16, computerSortedCombinationCardValues17, computerSortedCombinationCardValues18, computerSortedCombinationCardValues19, computerSortedCombinationCardValues20, computerSortedCombinationCardValues21];
@@ -686,6 +715,8 @@ $(function () {
   computerCardValueOfFullHouse();
 
   //Fourth Case - both players have a Flush - needs some thinking... Need to look at the suit value of the flush and then filter all cards within the array computerCard1, computerCard2, flopCard1, flopCard2, flopCard3, turnCard & riverCard and find the highest value. If still a draw then look at the next highest value and so on until a winner.
+
+
   // computerCardValueOfFlush = function() {
   //   for (var i=0;i<computerFlushHands.length;i++) {
   //     if (computerFullHouseHands[i][2] > computerHighestCardValueInAFullHouse) {
@@ -707,7 +738,7 @@ $(function () {
   };
   computerCardValueOfAStraight();
 
-  //Sixth Case - both players have Three Of A Kind
+  //Sixth Case - For if both players have Three Of A Kind
   computerCardValueOfThreeOfAKind = function() {
     for (var i=0;i<computerThreeOfAKindHands.length;i++) {
       if (computerThreeOfAKindHands[i][2] > computerHighestCardValueInThreeOfAKind) {
@@ -718,7 +749,7 @@ $(function () {
   };
   computerCardValueOfThreeOfAKind();
 
-  //Seventh Case - If Both Players Have Two Pair!
+  //Seventh Case - For if both players have Two Pair!
   computerCardValueOfFirstPairInTwoPair = function () {
     for (var i=0;i<computerTwoPairHands.length;i++) {
       if (computerTwoPairHands[i][1] > computerHighestCardValueInFirstPairInTwoPair) {
@@ -739,7 +770,7 @@ $(function () {
   };
   computerCardValueOfSecondPairInTwoPair();
 
-  //Eighth Case - If Both Players Have One Pair
+  //Eighth Case - For if both players have One Pair
   computerCardValueOfPair = function () {
     for (var i=0;i<computerPairedHands.length;i++) {
       if (computerPairedHands[i][0] === computerPairedHands[i][1]) {
@@ -759,10 +790,24 @@ $(function () {
   };
   computerCardValueOfPair();
 
-  // whoHasWon = function () {
-  //   if
-  // }
+  //Notes here on edits still required to perfect the game: Need to cater for the last card in the Four of A Kind Array - can be done by finding the highest value of the sum of the contents of each array as the only other card will be the non FOAK.
 
+  //This is where we will calculate the player's hand values
+  var humanHandValueCalculator = function () {
+    if (humanHighestCardValueInAStraightFlush === 14) {
+      humanHandScore = 100000000000;
+      humanHasRoyalFlush = 1;
+    } else if (humanHighestCardValueInAStraightFlush !==0) {
+      humanHandScore = 10000000000 + humanHighestCardValueInAStraightFlush;
+    } else if (humanHighestCardValueInAFourOfAKind !==0) {
+      humanHandScore = 1000000000 + humanHighestCardValueInAFourOfAKind*1000;
+    } else if (humanHighestCardValueInAFullHouse !==0) {
+      console.log('Testing for Full House');
+    }
+  };
+  humanHandValueCalculator();
 
+  //// Log Scores
+  console.log('Human Hand Score = '+humanHandScore);
 
 });
