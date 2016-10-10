@@ -19,7 +19,7 @@ $(function () {
   };
 
   //Use this to test card values
-  cardsSelectedForPlay = [0,2,34,37,5,6,7,8,9];
+  cardsSelectedForPlay = [0,13,45,37,26,6,7,8,9];
 
   // deal the cards to be used in the hand
   dealCards();
@@ -77,6 +77,7 @@ $(function () {
   var computerHighestCardValueInFirstPairInTwoPair = 0;
   var computerHighestCardValueInSecondPairInTwoPair = 0;
   var computerHighestCardValueInPair = 0;
+  var computerFlushCardValues = [];
 
   var humanHandScore = 0;
   var computerHandScore = 0;
@@ -645,7 +646,7 @@ $(function () {
   console.log(computerThreeOfAKindHands);
 
   //Function to see if there are Two Pairs in an array when called with the allComputerSortedCombinationCardValues array. Uses the twoPairChecker function.
-  var istwoPairComputer = function(array) {
+  var isTwoPairComputer = function(array) {
     for (var i=0;i<array.length;i++) {
       if(twoPairChecker(array[i])) {
         computerTwoPairHands.push(array[i]);
@@ -653,7 +654,7 @@ $(function () {
       }
     }
   };
-  istwoPairComputer(allComputerSortedCombinationCardValues);
+  isTwoPairComputer(allComputerSortedCombinationCardValues);
   console.log('Computer has '+computerTwoPairHands.length+' Two Pair arrays');
   console.log(computerTwoPairHands);
 
@@ -715,17 +716,37 @@ $(function () {
   computerCardValueOfFullHouse();
 
   //Fourth Case - both players have a Flush - needs some thinking... Need to look at the suit value of the flush and then filter all cards within the array computerCard1, computerCard2, flopCard1, flopCard2, flopCard3, turnCard & riverCard and find the highest value. If still a draw then look at the next highest value and so on until a winner.
-
-
-  // computerCardValueOfFlush = function() {
-  //   for (var i=0;i<computerFlushHands.length;i++) {
-  //     if (computerFullHouseHands[i][2] > computerHighestCardValueInAFullHouse) {
-  //       computerHighestCardValueInAFullHouse = computerFullHouseHands[i][2];
-  //       console.log('Computer has high card value of '+computerHighestCardValueInAFullHouse+' in a Full House');
-  //     }
-  //   }
-  // };
-  // computerCardValueOfFlush();
+  computerHighCardValueInAFlush = function () {
+    if (computerFlushHands.length > 0) {
+      var valueOfSuitInFlush = computerFlushHands[0][0];
+      console.log('Value of Suit In Flush is '+valueOfSuitInFlush);
+      if (deckOfCards[computerCard1].suit === valueOfSuitInFlush) {
+        computerFlushCardValues.push(deckOfCards[computerCard1].value);
+      }
+      if (deckOfCards[computerCard2].suit === valueOfSuitInFlush) {
+        computerFlushCardValues.push(deckOfCards[computerCard2].value);
+      }
+      if (deckOfCards[flopCard1].suit === valueOfSuitInFlush) {
+        computerFlushCardValues.push(deckOfCards[flopCard1].value);
+      }
+      if (deckOfCards[flopCard2].suit === valueOfSuitInFlush) {
+        computerFlushCardValues.push(deckOfCards[flopCard2].value);
+      }
+      if (deckOfCards[flopCard3].suit === valueOfSuitInFlush) {
+        computerFlushCardValues.push(deckOfCards[flopCard3].value);
+      }
+      if (deckOfCards[turnCard].suit === valueOfSuitInFlush) {
+        computerFlushCardValues.push(deckOfCards[turnCard].value);
+      }
+      if (deckOfCards[riverCard].suit === valueOfSuitInFlush) {
+        computerFlushCardValues.push(deckOfCards[riverCard].value);
+      }
+      computerFlushCardValues.sort(function(a, b) {return b-a;});
+      console.log(computerFlushCardValues);
+      console.log('Computer has a Flush. '+computerFlushCardValues[0]+' high');
+    }
+  };
+  computerHighCardValueInAFlush();
 
   //Fifth Case - both players have a straight.
   computerCardValueOfAStraight = function() {
@@ -738,7 +759,7 @@ $(function () {
   };
   computerCardValueOfAStraight();
 
-  //Sixth Case - For if both players have Three Of A Kind
+  //Sixth Case - both players have Three Of A Kind
   computerCardValueOfThreeOfAKind = function() {
     for (var i=0;i<computerThreeOfAKindHands.length;i++) {
       if (computerThreeOfAKindHands[i][2] > computerHighestCardValueInThreeOfAKind) {
@@ -749,7 +770,7 @@ $(function () {
   };
   computerCardValueOfThreeOfAKind();
 
-  //Seventh Case - For if both players have Two Pair!
+  //Seventh Case - If Both Players Have Two Pair!
   computerCardValueOfFirstPairInTwoPair = function () {
     for (var i=0;i<computerTwoPairHands.length;i++) {
       if (computerTwoPairHands[i][1] > computerHighestCardValueInFirstPairInTwoPair) {
@@ -770,7 +791,7 @@ $(function () {
   };
   computerCardValueOfSecondPairInTwoPair();
 
-  //Eighth Case - For if both players have One Pair
+  //Eighth Case - If Both Players Have One Pair
   computerCardValueOfPair = function () {
     for (var i=0;i<computerPairedHands.length;i++) {
       if (computerPairedHands[i][0] === computerPairedHands[i][1]) {
@@ -790,6 +811,9 @@ $(function () {
   };
   computerCardValueOfPair();
 
+  //Ninth Case - If Both Players Have High Card
+  //As for Flush... Need to iterate through the Sorted values of humanCard1, humanCard2, flopCard1, flopCard2, flopCard3, turnCard & riverCard until a winner is declared.
+
   //Notes here on edits still required to perfect the game: Need to cater for the last card in the Four of A Kind Array - can be done by finding the highest value of the sum of the contents of each array as the only other card will be the non FOAK.
 
   //This is where we will calculate the player's hand values
@@ -802,12 +826,58 @@ $(function () {
     } else if (humanHighestCardValueInAFourOfAKind !==0) {
       humanHandScore = 1000000000 + humanHighestCardValueInAFourOfAKind*1000;
     } else if (humanHighestCardValueInAFullHouse !==0) {
-      console.log('Testing for Full House');
+      humanHandScore = 100000000 + humanHighestCardValueInAFullHouse;
+    } else if (humanFlushCardValues !==0) {
+      humanHandScore = 10000000 + 100000*humanFlushCardValues[0] + 10000*humanFlushCardValues[1]+1000*humanFlushCardValues[2]+100*humanFlushCardValues[3]+10*humanFlushCardValues[4];
+    } else if (humanHighestCardValueInAStraight !==0) {
+      humanHandScore = 1000000 + humanHighestCardValueInAStraight;
+    } else if (humanHighestCardValueInThreeOfAKind !==0) {
+      humanHandScore = 100000 + 1000*humanHighestCardValueInThreeOfAKind;
+    } else if (humanHighestCardValueInFirstPairInTwoPair !==0) {
+      humanHandScore = 10000 + 100*humanHighestCardValueInFirstPairInTwoPair +10*humanHighestCardValueInSecondPairInTwoPair;
+    } else if (humanHighestCardValueInPair !==0) {
+      humanHandScore = 1000 + 100*humanHighestCardValueInPair;
+    } else if (humanHighestCard !==0) {
+      humanHandScore = 100*humanHighestCard;
     }
   };
   humanHandValueCalculator();
 
+  var computerHandValueCalculator = function () {
+    if (computerHighestCardValueInAStraightFlush === 14) {
+      computerHandScore = 100000000000;
+      computerHasRoyalFlush = 1;
+    }
+    else if (computerHighestCardValueInAStraightFlush !==0) {
+      computerHandScore = 10000000000 + computerHighestCardValueInAStraightFlush;
+    }
+    else if (computerHighestCardValueInAFourOfAKind !==0) {
+      computerHandScore = 1000000000 + computerHighestCardValueInAFourOfAKind*1000;
+    }
+    else if (computerHighestCardValueInAFullHouse !==0) {
+      computerHandScore = 100000000 + computerHighestCardValueInAFullHouse;
+    }
+    else if (computerFlushCardValues.length !==0) {
+      computerHandScore = 10000000 + 100000*computerFlushCardValues[0] + 10000*computerFlushCardValues[1]+1000*computerFlushCardValues[2]+100*computerFlushCardValues[3]+10*computerFlushCardValues[4];
+    }
+    else if (computerHighestCardValueInAStraight !==0) {
+      computerHandScore = 1000000 + computerHighestCardValueInAStraight;
+    } else if (computerHighestCardValueInThreeOfAKind !==0) {
+      computerHandScore = 100000 + 1000*computerHighestCardValueInThreeOfAKind;
+    } else if (computerHighestCardValueInFirstPairInTwoPair !==0) {
+      computerHandScore = 10000 + 100*computerHighestCardValueInFirstPairInTwoPair +10*computerHighestCardValueInSecondPairInTwoPair;
+    } else if (computerHighestCardValueInPair !==0) {
+      computerHandScore = 1000 + 100*computerHighestCardValueInPair;
+    } else if (computerHighestCard !==0) {
+      computerHandScore = 100*computerHighestCard;
+    }
+  };
+  computerHandValueCalculator();
+
+  console.log(computerHighestCardValueInPair);
+
   //// Log Scores
   console.log('Human Hand Score = '+humanHandScore);
+  console.log('Computer Hand Score = '+computerHandScore);
 
 });
