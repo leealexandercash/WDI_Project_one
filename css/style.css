@@ -19,7 +19,7 @@ img {
 
 .statusArea {
   display: inline-block;
-  width: 23%;
+  width: 26%;
   height: 800px;
   background-color: lightgrey;
   margin: 3%;
@@ -147,4 +147,9 @@ border-radius: 30px;
   border: 1px solid black;
   display: inline-block;
   background-color: white;
+}
+#nextHandButton {
+  width: 100px;
+  height: 50px;
+  margin: auto;
 }
