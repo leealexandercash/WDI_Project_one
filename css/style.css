@@ -7,122 +7,143 @@ h1 {
   margin: 0 auto;
   text-align: center;
 }
-.wrapper {
-
-}
 
 img {
-    display: block;
-    margin-left: auto;
-    margin-right: auto
-  }
+  display: block;
+  margin-left: auto;
+}
 
-.statusArea {
+.gameContainer {
+  margin: -20px;
+}
+
+#statusArea {
   display: inline-block;
-  width: 26%;
-  height: 800px;
+  width: 25%;
+  height: 760px;
   background-color: lightgrey;
-  margin: 3%;
-  margin-left: 10%;
-  border-radius: 30px;
+  margin: 5%;
+  border-radius: 20px;
   vertical-align: top;
   padding: 20px;
 }
 
 .gameArea {
-display: inline-block;
-width: 50%;
-height: 800px;
-background-color: lightgreen;
-margin: 3%;
-border-radius: 30px;
+  display: inline-block;
+  width: 50%;
+  height: 800px;
+  background-color: lightgreen;
+  margin: 5%;
+  border-radius: 20px;
 }
 
-.computerArea {
-  display: block;
-  height: 20%;
-  background-color: lightgreen;
-  width: 90%;
-  margin: auto;
+.computerCardContainer {
+  display: inline-block;
+  width: 350px;
+  height: 150px;
+  margin: 10px 35%;
 }
+
+#computerCard1 {
+  display: inline-block;
+  width: 96px;
+  height: 140px;
+}
+
+#computerCard2 {
+  display: inline-block;
+  width: 96px;
+  height: 140px;
+}
+
+#computerStackArea {
+  display: block;
+  width: 30%;
+  height: 50px;
+  text-align: center;
+  margin: auto;
+  font-size: 20px;
+}
+
 .boardArea {
   display: block;
-  position: relative;
-  height: 20%;
+  height: 160px;
   background-color: lightgreen;
   width: 90%;
   margin: auto;
   background: url("../images/poker-table-for-website.png") no-repeat;
   background-size: cover;
-}
-  .boardCardContainer {
-    margin: auto;
-    width: 370px;
-    height: 100px;
-    background-color: lightgreen;
-    border-top: 100px;
 
 }
-.humanArea {
-  display: block;
-  height: 20%;
-  background-color: rgba(0, 255, 0, 0);
-  width: 90%;
-  margin: 10px auto;
-  border-radius: 10px;
-  border: 2px solid black;
+#boardCardContainer {
+  display: inline-block;
+  margin: 35px 20% auto;
+  width: 358px;
+  height: 100px;
+  background-color: white;
 }
+
+.boardCard {
+  float: left;
+}
+
+#potArea {
+  display: block;
+  width: 30%;
+  height: 30px;
+  text-align: center;
+  margin: 20px auto;
+  font-size: 20px;
+}
+
+.humanCardContainer {
+  display: inline-block;
+  width: 350px;
+  height: 150px;
+  margin: 10px 35%;
+}
+
+#humanCard1 {
+  display: inline-block;
+  width: 96px;
+  height: 140px;
+
+
+}
+#humanCard2 {
+  display: inline-block;
+  width: 96px;
+  height: 140px;
+}
+
+#humanStackArea {
+  display: block;
+  width: 30%;
+  height: 30px;
+  text-align: center;
+  margin: auto;
+  font-size: 20px;
+}
+
 .buttonArea {
   display: block;
-  height: 20%;
+  height: 80px;
   background-color: lightgreen;
   width: 90%;
   margin: 10px auto;
   border-radius: 10px;
-  border: 2px solid black;
-}
-.computerCards {
-  display: inline-block;
-  width: 350px;
-  height: 150px;
-  margin: auto;
-}
-#computerCardOne {
-  display: inline-block;
-  width: 96px;
-  height: 140px;
-  background-color: white;
-}
-#computerCardTwo {
-  display: inline-block;
-  width: 96px;
-  height: 140px;
-  background-color: white;
 }
 
-.humanCards {
-  width: 220px;
-  height: 150px;
+.bettingButtonContainer {
   margin: auto;
+  width: 60%;
 }
-#humanCardOne {
-  display: inline-block;
-  width: 96px;
-  height: 140px;
-  background-color: white;
 
-}
-#humanCardTwo {
-  float: right;
-  display: inline-block;
-  width: 96px;
-  height: 140px;
-  background-color: white;
-}
 .bettingButtons {
   display: inline-block;
-  width: 100px;
-  height: 40px;
+  width: 110px;
+  margin: auto;
+  height: 50px;
 }
 #foldButton {
   background-color: orange;
@@ -133,23 +154,10 @@ border-radius: 30px;
 #betButton {
   background-color: green;
 }
-.bettingButtonContainer {
-  margin: auto;
-  width: 60%;
-}
-#computerPot {
-  display: inline-block;
-  width: 100px;
-  height: 100px;
-  margin: 25px 25px 0 25px;
-}
-.boardCard {
-  border: 1px solid black;
-  display: inline-block;
-  background-color: white;
-}
+
 #nextHandButton {
+  display: inline-block;
   width: 100px;
   height: 50px;
-  margin: auto;
+  margin: 0 42% auto;
 }

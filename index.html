@@ -5,46 +5,80 @@
   <title>Heads Up Poker</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" charset="utf-8"></script>
   <script type="text/javascript" src="js/deckOfCards.js"></script>
-  <script src="js/app.js" charset="utf-8"></script>
+  <script src="js/app2.js" charset="utf-8"></script>
   <link rel="stylesheet" href="css/style.css" media="screen" title="no title">
 </head>
 <body>
-  <h1>Slightly Dumb Heads Up Poker</h1>
+  <h1>Heads Up Poker</h1>
   <div class="wrapper">
+
     <div class="gameContainer">
-      <div class = "statusArea"></div>
+
+      <div id="statusArea"></div>
+
       <div class="gameArea">
-        <div class="computerArea">
-          <div class="computerCards">
-            <div id="computerCardOne"></div>
-            <div id="computerCardTwo"></div>
-          </div>
+
+
+        <div class="computerCardContainer">
+
+          <div id="computerCard1"></div>
+          <div id="computerCard2"></div>
+
         </div>
+
+        <div id="computerStackArea">
+
+        </div>
+
         <div class="boardArea">
-          <div class="boardCardContainer">
+
+          <div id="boardCardContainer">
+
             <div id="flopCard1" class="boardCard"></div>
             <div id="flopCard2" class="boardCard"></div>
             <div id="flopCard3" class="boardCard"></div>
             <div id="turnCard" class="boardCard"></div>
             <div id="riverCard" class="boardCard"></div>
-          </div>
-        </div>
-        <div class="humanArea">humanArea
-          <div class="humanCards">
-            <div id="humanCardOne"></div>
-            <div id="humanCardTwo"></div>
-          </div>
-        </div>
-        <div class="buttonArea">buttonArea
-          <div class="bettingButtonContainer">
-            <button type="button" class="bettingButtons" id="foldButton">Fold</button>
-            <button type="button" class="bettingButtons" id="callButton">Call</button>
-            <button type="button" class="bettingButtons" id="betButton">Bet</button>
-          </div>
 
           </div>
-          <button type="button" id='nextHandButton'>Next Hand
+
         </div>
+
+        <div id="potArea">
+          
+        </div>
+
+        <div class="humanArea">
+
+          <div class="humanCardContainer">
+
+            <div id="humanCard1"></div>
+            <div id="humanCard2"></div>
+
+          </div>
+          <div id="humanStackArea">
+
+          </div>
+        </div>
+
+        <div class="buttonArea">
+
+          <div class="bettingButtonContainer">
+
+            <button type="button" class="bettingButtons" id="foldButton">Fold</button>
+            <button type="button" class="bettingButtons" id="callButton">Call $100</button>
+            <button type="button" class="bettingButtons" id="betButton">Bet $200</button>
+
+          </div>
+
+        </div>
+
+        <button type="button" id='nextHandButton'>Start Game
+
+        </div>
+
       </div>
+
     </body>
+
     </html>
