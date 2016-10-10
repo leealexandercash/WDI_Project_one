@@ -19,7 +19,7 @@ $(function () {
   };
 
   //Use this to test card values
-  cardsSelectedForPlay = [0,13,45,37,26,6,7,8,9];
+  // cardsSelectedForPlay = [0,13,45,37,26,6,7,8,9];
 
   // deal the cards to be used in the hand
   dealCards();
@@ -81,6 +81,7 @@ $(function () {
 
   var humanHandScore = 0;
   var computerHandScore = 0;
+  var handWinner = '';
 
   // This logs the full set of cards dealt but isn't required once the UI contains the cards.
   // console.log(deckOfCards[humanCard1].value, deckOfCards[humanCard1].suitName, deckOfCards[humanCard2].value, deckOfCards[humanCard2].suitName, deckOfCards[computerCard1].value, deckOfCards[computerCard1].suitName, deckOfCards[computerCard2].value, deckOfCards[computerCard2].suitName, deckOfCards[flopCard1].value, deckOfCards[flopCard1].suitName, deckOfCards[flopCard2].value, deckOfCards[flopCard2].suitName, deckOfCards[flopCard3].value, deckOfCards[flopCard3].suitName, deckOfCards[turnCard].value, deckOfCards[turnCard].suitName, deckOfCards[riverCard].value, deckOfCards[riverCard].suitName);
@@ -827,7 +828,7 @@ $(function () {
       humanHandScore = 1000000000 + humanHighestCardValueInAFourOfAKind*1000;
     } else if (humanHighestCardValueInAFullHouse !==0) {
       humanHandScore = 100000000 + humanHighestCardValueInAFullHouse;
-    } else if (humanFlushCardValues !==0) {
+    } else if (humanFlushCardValues.length !==0) {
       humanHandScore = 10000000 + 100000*humanFlushCardValues[0] + 10000*humanFlushCardValues[1]+1000*humanFlushCardValues[2]+100*humanFlushCardValues[3]+10*humanFlushCardValues[4];
     } else if (humanHighestCardValueInAStraight !==0) {
       humanHandScore = 1000000 + humanHighestCardValueInAStraight;
@@ -836,7 +837,7 @@ $(function () {
     } else if (humanHighestCardValueInFirstPairInTwoPair !==0) {
       humanHandScore = 10000 + 100*humanHighestCardValueInFirstPairInTwoPair +10*humanHighestCardValueInSecondPairInTwoPair;
     } else if (humanHighestCardValueInPair !==0) {
-      humanHandScore = 1000 + 100*humanHighestCardValueInPair;
+      humanHandScore = 1000 + 100*humanHighestCard;
     } else if (humanHighestCard !==0) {
       humanHandScore = 100*humanHighestCard;
     }
@@ -867,7 +868,7 @@ $(function () {
     } else if (computerHighestCardValueInFirstPairInTwoPair !==0) {
       computerHandScore = 10000 + 100*computerHighestCardValueInFirstPairInTwoPair +10*computerHighestCardValueInSecondPairInTwoPair;
     } else if (computerHighestCardValueInPair !==0) {
-      computerHandScore = 1000 + 100*computerHighestCardValueInPair;
+      computerHandScore = 1000 + 100*computerHighestCard;
     } else if (computerHighestCard !==0) {
       computerHandScore = 100*computerHighestCard;
     }
@@ -879,5 +880,17 @@ $(function () {
   //// Log Scores
   console.log('Human Hand Score = '+humanHandScore);
   console.log('Computer Hand Score = '+computerHandScore);
+
+  var handWinnerFunction = function () {
+    if (humanHandScore > computerHandScore) {
+      handWinner =  'Human';
+    }
+    else {
+      handWinner = 'Computer';
+    }
+  };
+  handWinnerFunction();
+
+  console.log(handWinner +' is the winner!');
 
 });
