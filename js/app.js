@@ -2,6 +2,13 @@ $(function () {
 
   // deckOfCards looks like this and is stored as an object on the window.
   //   {name: 'two of clubs', value: 2, suit: 1, suitName: clubs, image: '2clubs.png'},
+  var handTurn = 0;
+  var humanStack = 5000;
+  var computerStack = 5000;
+
+  // THE HANDS ARE PLAYED BELOW THIS LINE
+
+
 
   // let's create a variable to hold all the cards that will be used in the hand.
   var cardsSelectedForPlay = [];
@@ -82,6 +89,11 @@ $(function () {
   var humanHandScore = 0;
   var computerHandScore = 0;
   var handWinner = '';
+  var computerHandBetterThanFiftyPercent = false;
+  var computerBetRatio = 0;
+  var computerShall = '';
+  var potValue = 0;
+
 
   // This logs the full set of cards dealt but isn't required once the UI contains the cards.
   // console.log(deckOfCards[humanCard1].value, deckOfCards[humanCard1].suitName, deckOfCards[humanCard2].value, deckOfCards[humanCard2].suitName, deckOfCards[computerCard1].value, deckOfCards[computerCard1].suitName, deckOfCards[computerCard2].value, deckOfCards[computerCard2].suitName, deckOfCards[flopCard1].value, deckOfCards[flopCard1].suitName, deckOfCards[flopCard2].value, deckOfCards[flopCard2].suitName, deckOfCards[flopCard3].value, deckOfCards[flopCard3].suitName, deckOfCards[turnCard].value, deckOfCards[turnCard].suitName, deckOfCards[riverCard].value, deckOfCards[riverCard].suitName);
@@ -92,6 +104,58 @@ $(function () {
   //Update the UI with the all the cards in view initially so that we can test more easily whilst developing the game
   $('#humanCardOne').append('<img height=100% src="images/'+deckOfCards[humanCard1].image+'" />');
   $('#humanCardTwo').append('<img height=100% src="images/'+deckOfCards[humanCard2].image+'" />');
+
+  // BUT Let's break play here for the betting before playing the other cards...
+
+  //First determine if the Computer has a hand better than 50% of hands...
+
+  if (handTurn %2 === 0) {
+
+    var isComputerHandBetterThanFiftyPercent = function () {
+      if (((deckOfCards[computerCard1].value > 11) && deckOfCards[computerCard2].value > 8) || ((deckOfCards[computerCard1].value === deckOfCards[computerCard2].value))) {
+        computerHandBetterThanFiftyPercent = true;
+      }
+    };
+    isComputerHandBetterThanFiftyPercent();
+
+    var setComputerBettingRatio = function () {
+      if (computerHandBetterThanFiftyPercent === true) {
+        computerBetRatio = Math.random()*1.5;
+      }
+      else {
+        computerBetRatio = Math.random();
+      }
+    };
+    setComputerBettingRatio();
+
+    var computerFoldCallOrRaise = function () {
+      if (computerBetRatio > 0.7) {
+        computerShall = 'bet';
+        potValue = potValue + 200;
+        computerStack = computerStack - 200;
+      } else if (computerBetRatio > 0.4) {
+        computerShall = 'call';
+        potValue = potValue + 100;
+        computerStack = computerStack - 100;
+      } else {
+        computerShall = 'fold';
+      }
+    };
+    computerFoldCallOrRaise();
+    console.log(computerShall);
+
+    if (computerShall == 'bet') {
+      $('.statusArea').append('Computer decided to bet $200.<br> Pot is now worth $'+potValue);
+    } else if (computerShall == 'call') {
+      $('.statusArea').append('Computer decided to call $100.<br> Pot is now worth $'+potValue);
+    } else if (computerShall == 'fold') {
+      $('.statusArea').append('Computer decided to fold.<br> Hand is yours');
+      // TIme interval then
+      
+    }
+  }
+
+
   $('#computerCardOne').append('<img height=100% src="images/'+deckOfCards[computerCard1].image+'" />');
   $('#computerCardTwo').append('<img height=100% src="images/'+deckOfCards[computerCard2].image+'" />');
   $('#flopCard1').append('<img height=100px src="images/'+deckOfCards[flopCard1].image+'" />');
